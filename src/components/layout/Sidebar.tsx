@@ -7,7 +7,7 @@ const Sidebar = () => {
    const [collapsed, setCollapsed] = useState(false);
   return (
     <aside className={`h-screen bg-white transition-all duration-300
-      ${collapsed ? "w-23" : "w-64"}`}>
+      ${collapsed ? "w-20" : "w-64"}`}>
       <div className="flex items-center justify-between p-4 relative">
          {!collapsed ? <h3 className="text-xl">Admin</h3> : <h3>A</h3>}
         <button

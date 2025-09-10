@@ -35,12 +35,16 @@ body {
 }
 
 /* custom-table */
-.custom-grid .rdg {
-  border: none !important;
+.rdg {
+  border: none;
+  border-radius: 12px;
 }
 .custom-grid .rdg-cell {
   border-right: none !important;
   padding: 0 12px;
+}
+.custom-grid .rdg-cell:focus {
+  border: none !important;
 }
 
 .custom-grid .rdg-row {

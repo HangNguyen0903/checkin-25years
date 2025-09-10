@@ -4,13 +4,14 @@ import { useState } from "react";
 import type { FieldError, UseFormRegisterReturn } from "react-hook-form";
 
 type Props = {
-  label: string;
+  label?: string;
   type?: string;
   placeholder?: string;
   error?: FieldError;
-  registration: UseFormRegisterReturn;
+  registration?: UseFormRegisterReturn;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
+  width?:string
 };
 
 export default function InputField({
@@ -21,11 +22,12 @@ export default function InputField({
   registration,
   leftIcon,
   rightIcon,
+  width
 }: Props) {
   const [showPassword, setShowPassword] = useState(false);
    const isPassword = type === "password";
   return (
-    <div className="mb-4">
+    <div className="">
       {label && <label className="block font-medium mb-1">{label}</label>}
       {type === "textarea" ? (
         <textarea
@@ -45,18 +47,17 @@ export default function InputField({
               {leftIcon}
             </span>
           )}
-
           <input
             type={isPassword ? (showPassword ? "text" : "password") : type}
             placeholder={placeholder}
             {...registration}
-            className={`border w-full p-2 rounded focus:outline-none focus:ring-2
+            className={`border ${width ? `w-[${width}]` : "w-full"} py-2 rounded-lg focus:outline-none focus:ring-2 
               ${leftIcon ? "pl-8" : "pl-2"}
               ${isPassword || rightIcon ? "pr-8" : "pr-2"}
               ${
                 error
                   ? "border-red-500 focus:ring-red-400"
-                  : "border-gray-300 focus:ring-blue-400"
+                  : "border-gray-300 focus:ring-gray-400"
               }`}
           />
 

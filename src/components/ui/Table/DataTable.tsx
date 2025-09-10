@@ -47,7 +47,7 @@ export default function ReactTableGridCustom<T>({
         columns={columns}
         rows={data}
         rowHeight={rowHeight}
-        className="rdg-light min-h-[700px] custom-grid"
+        className="rdg-light min-h-[650px] custom-grid"
         onSelectedRowsChange={onSelectedRowsChange}
       />
 
