@@ -40,7 +40,7 @@ body {
   border-radius: 12px;
 }
 .custom-grid .rdg-cell {
-  border-right: none !important;
+  /* border-right: none !important; */
   padding: 0 12px;
 }
 .custom-grid .rdg-cell:focus {

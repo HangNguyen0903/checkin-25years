@@ -24,8 +24,8 @@ export default function ButtonField({
     "flex items-center justify-center gap-2 px-4 py-2 rounded font-medium transition-colors duration-200";
 
   const colors: Record<typeof color, string> = {
-    primary: "bg-blue-600 hover:bg-blue-700 text-white",
-    secondary: "bg-gray-200 hover:bg-gray-300 text-gray-800",
+    primary: "bg-blue-900 hover:bg-blue-800 text-white",
+    secondary: "border hover:bg-gray-300 text-gray-800",
     danger: "bg-red-500 hover:bg-red-600 text-white",
     success: "bg-green-700 hover:bg-green-600 text-white",
   };

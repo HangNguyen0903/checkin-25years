@@ -11,7 +11,7 @@ type Props = {
   registration?: UseFormRegisterReturn;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
-  width?:string
+  width?: string;
 };
 
 export default function InputField({
@@ -22,13 +22,20 @@ export default function InputField({
   registration,
   leftIcon,
   rightIcon,
-  width
+  width,
 }: Props) {
   const [showPassword, setShowPassword] = useState(false);
-   const isPassword = type === "password";
+  const isPassword = type === "password";
   return (
     <div className="">
-      {label && <label className="block font-medium mb-1">{label}</label>}
+      {label && (
+        <label className="block font-medium mb-1">
+          {label}
+          {registration && (
+            <span className="text-red-500 ml-1">*</span>
+          )}
+        </label>
+      )}
       {type === "textarea" ? (
         <textarea
           placeholder={placeholder}
@@ -51,7 +58,9 @@ export default function InputField({
             type={isPassword ? (showPassword ? "text" : "password") : type}
             placeholder={placeholder}
             {...registration}
-            className={`border ${width ? `w-[${width}]` : "w-full"} py-2 rounded-lg focus:outline-none focus:ring-2 
+            className={`border ${
+              width ? `w-[${width}]` : "w-full"
+            } py-2 rounded-md focus:outline-none focus:ring-2 
               ${leftIcon ? "pl-8" : "pl-2"}
               ${isPassword || rightIcon ? "pr-8" : "pr-2"}
               ${
@@ -60,8 +69,6 @@ export default function InputField({
                   : "border-gray-300 focus:ring-gray-400"
               }`}
           />
-
-          {/* Nếu là password thì hiện icon toggle */}
           {isPassword ? (
             <button
               type="button"

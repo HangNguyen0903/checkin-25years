@@ -14,14 +14,13 @@ const Header = ({ username, avatarUrl }: Props) => {
   const initials = username?.charAt(0)?.toUpperCase() || "U";
 
   const handleLogout = () => {
-    // clear token
     localStorage.removeItem("token");
     // chuyển về login
     navigate("/login");
   };
 
   return (
-    <header className="h-16 bg-white shadow flex items-center justify-between px-6">
+    <header className="h-12 bg-white shadow flex items-center justify-between px-6">
       <h1 className="text-2xl font-semibold">Admin</h1>
       <div className="flex items-center space-x-4">
         <div className="relative">
