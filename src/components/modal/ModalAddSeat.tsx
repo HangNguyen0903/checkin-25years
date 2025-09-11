@@ -5,6 +5,7 @@ import type { Seat } from "@/types/seats";
 import InputField from "../ui/Input/InputField";
 import ButtonField from "../ui/Button/ButtonField";
 import Select from "../ui/Select/SelectField";
+import { events } from "@/mockData/guest";
 
 const ModalAddSeat = ({ open, setOpen, selectedData }: ModalProps) => {
   const {
@@ -54,17 +55,24 @@ const ModalAddSeat = ({ open, setOpen, selectedData }: ModalProps) => {
           error={errors.name}
         />
         <Select
-          options={[
-            { label: "Tuỳ chọn 1", value: "1" },
-            { label: "Tuỳ chọn 2", value: "2" },
-            { label: "Tuỳ chọn 3", value: "3" },
-          ]}
           title="Sự kiện"
-          value={""}
-          onChange={() => {}}
+          options={events.map((ev) => ({
+            label: ev.name,
+            value: ev.id,
+          }))}
           placeholder="Chọn sự kiện"
-          className="w-full h-12"
+          registration={register("event", {
+            required: "Sự kiện là bắt buộc",
+          })}
+          onChange={(val) => {
+            console.log("Bạn vừa chọn sự kiện:", val);
+          }}
+          error={errors.event}
         />
+        <div className="">
+          <div>Ảnh vị trí *</div>
+          <div className=''></div>
+        </div>
         <div className="flex justify-end gap-2">
           <ButtonField
             type="button"

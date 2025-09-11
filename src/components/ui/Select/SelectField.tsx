@@ -26,20 +26,30 @@ const Select: React.FC<SelectProps> = ({
   placeholder = "Chọn...",
   disabled = false,
   className = "",
+  registration,
+  error,
 }) => {
   return (
     <div className="">
       {title && (
         <label className="block font-medium mb-1">
           {title}
-          {/* {registration && <span className="text-red-500 ml-1">*</span>} */}
+          {registration && <span className="text-red-500 ml-1">*</span>}
         </label>
       )}
       <select
         value={value ?? ""}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => {
+          onChange?.(e.target.value);
+          registration?.onChange?.(e);
+        }}
         disabled={disabled}
-        className={`border border-gray-300 rounded-md px-3 py-1 focus:ring-2 focus:ring-gray-400  ${className}`}
+        onBlur={registration?.onBlur}
+        name={registration?.name}
+        ref={registration?.ref}
+        className={`border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-400 w-full ${className} ${
+          error ? "border-red-500" : ""
+        }`}
       >
         {placeholder && (
           <option value="" disabled hidden>
@@ -52,6 +62,7 @@ const Select: React.FC<SelectProps> = ({
           </option>
         ))}
       </select>
+      {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
     </div>
   );
 };

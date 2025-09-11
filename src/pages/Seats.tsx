@@ -16,9 +16,10 @@ const Seating = () => {
     setSelectedEvent(event);
   };
 
-  const handleDelete = (id: string) => {
-    console.log(`Xóa thành công ${id}`);
-  };
+  // const handleDelete = (id: string) => {
+  //   console.log(`Xóa thành công ${id}`);
+  // };
+  
   return (
     <div className="bg-white shadow border border-gray-100 rounded-lg">
       <div className="border-b-1 border-gray-300">
