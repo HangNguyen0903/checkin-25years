@@ -31,7 +31,7 @@ export default function InputField({
       {label && (
         <label className="block font-medium mb-1">
           {label}
-          {registration && (
+          {registration && error && (
             <span className="text-red-500 ml-1">*</span>
           )}
         </label>
@@ -60,7 +60,7 @@ export default function InputField({
             {...registration}
             className={`border ${
               width ? `w-[${width}]` : "w-full"
-            } py-2 rounded-md focus:outline-none focus:ring-2 
+            } py-1 rounded-md focus:outline-none focus:ring-2 
               ${leftIcon ? "pl-8" : "pl-2"}
               ${isPassword || rightIcon ? "pr-8" : "pr-2"}
               ${

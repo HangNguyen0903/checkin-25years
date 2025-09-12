@@ -14,4 +14,6 @@ export interface Guest {
   status: string;
   checkin: boolean;
   note?: string;
+  phone_change?: string;
+  fullName_change?: string;
 }

@@ -1,37 +1,53 @@
 import { seatColumns } from "@/features/columns";
-import { seats } from "@/mockData/guest";
+import { events, seats } from "@/mockData/guest";
 import DataTableGrid from "../components/ui/Table/DataTableGrid";
 import InputField from "@/components/ui/Input/InputField";
 import ButtonField from "@/components/ui/Button/ButtonField";
-import { Plus, Search } from "lucide-react";
+import { Plus, RefreshCcw } from "lucide-react";
 import { useState } from "react";
 import ModalAddSeat from "@/components/modal/ModalAddSeat";
+import type { Seat } from "@/types/seats";
+import Select from "@/components/ui/Select/SelectField";
 
 const Seating = () => {
   const [open, setOpen] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState<Event | undefined>();
+  const [selectedSeat, setSelectedSeat] = useState<Seat | undefined>();
 
-  const handleChangeEvent = (event?: Event) => {
+  const handleChangeEvent = (event?: Seat) => {
     setOpen(true);
-    setSelectedEvent(event);
+    setSelectedSeat(event);
   };
 
-  // const handleDelete = (id: string) => {
-  //   console.log(`Xóa thành công ${id}`);
-  // };
-  
+  const handleDelete = (id: string) => {
+    console.log(`Xóa thành công ${id}`);
+  };
+
   return (
     <div className="bg-white shadow border border-gray-100 rounded-lg">
       <div className="border-b-1 border-gray-300">
-        <div className="flex justify-between items-center p-4">
+        <div className="flex justify-between items-start p-4">
           <div className="flex gap-2">
-            <InputField
-              placeholder="Tên sự kiện"
-              leftIcon={<Search size={14} />}
+            <InputField placeholder="Mã vị trí" />
+            <InputField placeholder="Tên vị trí" />
+            <Select
+              options={events.map((ev) => ({
+                label: ev.name,
+                value: ev.id,
+              }))}
+              placeholder="Chọn sự kiện"
+              onChange={(val) => {
+                console.log("Bạn vừa chọn sự kiện:", val);
+              }}
             />
             <ButtonField type="button" color="primary" text="Tìm kiếm" />
+            <ButtonField
+              type="button"
+              color="danger"
+              text="Reset"
+              icon={<RefreshCcw size={16} />}
+            />
           </div>
-          <div>
+          <div className="">
             <ButtonField
               type="button"
               color="primary"
@@ -48,16 +64,12 @@ const Seating = () => {
           rows={seats}
           getRowId={(row) => row.uuid}
           helpers={{
-            // onOpenModalEdit: (row: Event) => handleChangeEvent(row),
-            // onDelete: (id: string) => handleDelete(id),
+            onOpenModalEdit: (row: Seat) => handleChangeEvent(row),
+            onDelete: (id: string) => handleDelete(id),
           }}
         />
       </div>
-      <ModalAddSeat
-        open={open}
-        setOpen={setOpen}
-        selectedData={selectedEvent}
-      />
+      <ModalAddSeat open={open} setOpen={setOpen} selectedData={selectedSeat} />
     </div>
   );
 };

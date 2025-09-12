@@ -21,7 +21,6 @@ interface SelectProps {
 const Select: React.FC<SelectProps> = ({
   title,
   options,
-  value,
   onChange,
   placeholder = "Chọn...",
   disabled = false,
@@ -38,16 +37,16 @@ const Select: React.FC<SelectProps> = ({
         </label>
       )}
       <select
-        value={value ?? ""}
+        defaultValue=""
         onChange={(e) => {
           onChange?.(e.target.value);
           registration?.onChange?.(e);
         }}
-        disabled={disabled}
         onBlur={registration?.onBlur}
         name={registration?.name}
         ref={registration?.ref}
-        className={`border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-gray-400 w-full ${className} ${
+        disabled={disabled}
+        className={`border border-gray-300 rounded-md px-3 py-1 focus:ring-2 focus:ring-gray-400 w-full ${className} ${
           error ? "border-red-500" : ""
         }`}
       >

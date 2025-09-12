@@ -5,37 +5,39 @@ import type { Seat } from "@/types/seats";
 export const mockGuests: Guest[] = [
   {
     id: "1",
-    object: "Khách mời VIP",
+    object: "TW",
     region: "Hà Nội",
     title: "PGS.TS",
     fullName: "Nguyễn Văn A",
-    position: "Giám đốc",
+    position: "KTW",
     organization: "Công ty ABC",
     address: "123 Trần Duy Hưng, Hà Nội",
     email: "nguyenvana@example.com",
     phone: "0912345678",
-    department: "Phòng Kinh doanh",
+    department: "DAHCM",
     tableCode: "B01",
-    status: "Bình thường",
+    status: "BT",
     checkin: true,
     note: "Ăn chay",
   },
   {
     id: "2",
-    object: "Diễn giả",
+    object: "GDĐT",
     region: "TP. Hồ Chí Minh",
     title: "TS",
     fullName: "Trần Thị B",
-    position: "Trưởng phòng",
+    position: "KDN",
     organization: "Đại học XYZ",
     address: "45 Nguyễn Huệ, Quận 1, TP.HCM",
     email: "tranthib@example.com",
     phone: "0987654321",
-    department: "Phòng Đào tạo",
+    department: "SHCM",
     tableCode: "C02",
-    status: "Bình thường",
+    status: "DC",
     checkin: false,
     note: "",
+    fullName_change: "Trần Văn AB",
+    phone_change: "0987654321",
   },
   {
     id: "3",
@@ -74,9 +76,21 @@ export const mockGuests: Guest[] = [
 ];
 
 export const seats: Seat[] = [
-  { uuid: "H1DA", name: "Hàng 1 Dãy A", event: "25 năm thành lập IIG" },
-  { uuid: "H2DA", name: "Hàng 1 Dãy A", event: "25 năm thành lập IIG" },
-  { uuid: "H1DB", name: "Hàng 1 Dãy A", event: "25 năm thành lập IIG" },
+  {
+    uuid: "H1DA",
+    name: "Hàng 1 Dãy A",
+    event: { id: "SK01", name: "25 năm thành lập IIG" },
+  },
+  {
+    uuid: "H2DA",
+    name: "Hàng 1 Dãy A",
+    event: { id: "SK02", name: "30 năm thành lập IIG" },
+  },
+  {
+    uuid: "H1DB",
+    name: "Hàng 1 Dãy A",
+    event: { id: "SK03", name: "35 năm thành lập IIG" },
+  },
 ];
 
 export const events: Event[] = [

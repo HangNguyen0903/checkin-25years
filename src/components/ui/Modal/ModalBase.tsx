@@ -43,7 +43,7 @@ const BaseModal: React.FC<BaseModalProps> = ({
           justifyContent="space-between"
           alignItems="center"
           mb={2}
-          className="bg-[#0B4D8D] text-white py-2 px-4"
+          className="bg-[#0B4D8D] text-white py-2 pl-4 pr-2"
         >
           {title && (
             <Typography id="base-modal-title" fontWeight="">

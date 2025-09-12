@@ -35,7 +35,7 @@ const ModalAddEvent = ({ open, setOpen, selectedData }: ModalProps) => {
     } else {
       reset({ name: "", description: "" });
     }
-  }, [selectedData, reset]);
+  }, [selectedData, open, reset]);
 
   return (
     <BaseModal
