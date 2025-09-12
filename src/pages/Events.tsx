@@ -9,6 +9,7 @@ import { Plus, Search } from "lucide-react";
 import { useState } from "react";
 
 const Events = () => {
+
   const [open, setOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<Event | undefined>();
 

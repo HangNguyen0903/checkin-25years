@@ -60,13 +60,13 @@ export default function InputField({
             {...registration}
             className={`border ${
               width ? `w-[${width}]` : "w-full"
-            } py-1 rounded-md focus:outline-none focus:ring-2 
+            } py-1 rounded-md focus:outline-none focus:ring-3 
               ${leftIcon ? "pl-8" : "pl-2"}
               ${isPassword || rightIcon ? "pr-8" : "pr-2"}
               ${
                 error
                   ? "border-red-500 focus:ring-red-400"
-                  : "border-gray-300 focus:ring-gray-400"
+                  : "border-gray-300 focus:ring-gray-400 "
               }`}
           />
           {isPassword ? (
@@ -86,7 +86,7 @@ export default function InputField({
           )}
         </div>
       )}
-      {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
+      {/* {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>} */}
     </div>
   );
 }

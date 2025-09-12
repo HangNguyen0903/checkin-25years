@@ -9,7 +9,7 @@ import ModalAddSeat from "@/components/modal/ModalAddSeat";
 import type { Seat } from "@/types/seats";
 import Select from "@/components/ui/Select/SelectField";
 
-const Seating = () => {
+const Seats = () => {
   const [open, setOpen] = useState(false);
   const [selectedSeat, setSelectedSeat] = useState<Seat | undefined>();
 
@@ -27,8 +27,7 @@ const Seating = () => {
       <div className="border-b-1 border-gray-300">
         <div className="flex justify-between items-start p-4">
           <div className="flex gap-2">
-            <InputField placeholder="Mã vị trí" />
-            <InputField placeholder="Tên vị trí" />
+            <InputField placeholder="Nhập Tên vị trí, Mã vị trí" />
             <Select
               options={events.map((ev) => ({
                 label: ev.name,
@@ -73,4 +72,4 @@ const Seating = () => {
     </div>
   );
 };
-export default Seating;
+export default Seats;

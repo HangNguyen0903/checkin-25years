@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import type { Event } from "@/types/events";
 import ButtonField from "../ui/Button/ButtonField";
 import { useEffect } from "react";
+import { defaultValuesEvent } from "@/constants/defaultValue";
 
 const ModalAddEvent = ({ open, setOpen, selectedData }: ModalProps) => {
   const {
@@ -13,10 +14,7 @@ const ModalAddEvent = ({ open, setOpen, selectedData }: ModalProps) => {
     reset,
     formState: { errors },
   } = useForm<Event>({
-    defaultValues: {
-      name: "",
-      description: "",
-    },
+    defaultValues: defaultValuesEvent,
   });
 
   const onSubmit = async () =>
@@ -30,11 +28,7 @@ const ModalAddEvent = ({ open, setOpen, selectedData }: ModalProps) => {
     };
 
   useEffect(() => {
-    if (selectedData) {
-      reset(selectedData);
-    } else {
-      reset({ name: "", description: "" });
-    }
+    reset(selectedData ?? defaultValuesEvent);
   }, [selectedData, open, reset]);
 
   return (
@@ -51,6 +45,7 @@ const ModalAddEvent = ({ open, setOpen, selectedData }: ModalProps) => {
             required: "Tên sự kiện là bắt buộc",
           })}
           error={errors.name}
+          placeholder="Nhập tên sự kiện"
         />
         <InputField
           label="Mô tả"
@@ -59,6 +54,7 @@ const ModalAddEvent = ({ open, setOpen, selectedData }: ModalProps) => {
             required: "Mô tả sự kiện là bắt buộc",
           })}
           error={errors.description}
+          placeholder="Nhập mô tả"
         />
         <div className="flex justify-end gap-2">
           <ButtonField

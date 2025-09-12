@@ -8,6 +8,7 @@ import Select from "../ui/Select/SelectField";
 import { events } from "@/mockData/guest";
 import { IdCard } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { defaultValuesSeat } from "@/constants/defaultValue";
 
 const ModalAddSeat = ({ open, setOpen, selectedData }: ModalProps) => {
   const [image, setImage] = useState<string | null>(null);
@@ -19,16 +20,10 @@ const ModalAddSeat = ({ open, setOpen, selectedData }: ModalProps) => {
     reset,
     formState: { errors },
   } = useForm<Seat>({
-    defaultValues: {
-      uuid: "",
-      name: "",
-      image: "",
-      event: {},
-    },
+    defaultValues: defaultValuesSeat
   });
 
   const onSubmit = async (data: Seat) => console.log("data", data);
-  // data
   {
     // try {
     //   alert("Thêm sự kiện thành công");
@@ -44,13 +39,8 @@ const ModalAddSeat = ({ open, setOpen, selectedData }: ModalProps) => {
       setImage(imageUrl);
     }
   };
-
   useEffect(() => {
-    if (selectedData) {
-      reset(selectedData);
-    } else {
-      reset({ uuid: "", name: "", image: "", event: {} });
-    }
+    reset(selectedData ?? defaultValuesSeat);
   }, [selectedData, open, reset]);
 
   return (

@@ -51,9 +51,7 @@ const Guests = () => {
         <div className="flex justify-between items-start p-4">
           <div className="space-y-2">
             <div className="flex gap-3">
-              <InputField placeholder="Họ và tên" />
-              <InputField placeholder="Số điện thoại" />
-              <InputField placeholder="Mã bàn tiệc" />
+              <InputField placeholder="Họ và tên, Số điện thoại, Mã bàn tiệc" />
               <Select
                 options={events.map((ev) => ({
                   label: ev.name,
@@ -64,8 +62,6 @@ const Guests = () => {
                   console.log("Bạn vừa chọn sự kiện:", val);
                 }}
               />
-            </div>
-            <div className="flex gap-3">
               <Select
                 options={events.map((ev) => ({
                   label: ev.name,
@@ -144,7 +140,11 @@ const Guests = () => {
         setOpen={setOpen}
         selectedData={selectedGuest}
       />
-      <ModalCheckin open={isCheckin} setOpen={setIsCheckin} selectedData={selectedGuest}/>
+      <ModalCheckin
+        open={isCheckin}
+        setOpen={setIsCheckin}
+        selectedData={selectedGuest}
+      />
     </div>
   );
 };

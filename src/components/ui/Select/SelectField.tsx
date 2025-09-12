@@ -46,7 +46,7 @@ const Select: React.FC<SelectProps> = ({
         name={registration?.name}
         ref={registration?.ref}
         disabled={disabled}
-        className={`border border-gray-300 rounded-md px-3 py-1 focus:ring-2 focus:ring-gray-400 w-full ${className} ${
+        className={`border border-gray-300 rounded-md px- py-1 focus:ring-2 focus:ring-gray-400 w-full ${className} ${
           error ? "border-red-500" : ""
         }`}
       >
@@ -61,7 +61,7 @@ const Select: React.FC<SelectProps> = ({
           </option>
         ))}
       </select>
-      {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
+      {/* {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>} */}
     </div>
   );
 };

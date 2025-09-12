@@ -34,11 +34,11 @@ const Sidebar = () => {
             className={`block px-3 py-2 rounded ${
               location.pathname === r.path
                 ? "bg-blue-100 border border-blue-300 rounded-md text-blue-800 "
-                : "hover:bg-gray-200"
+                : "hover:bg-gray-100"
             }`}
           >
             <div className="flex gap-2 text-sm items-center">
-              <span className="w-5 h-5 flex items-center justify-center">{r.icon}</span>
+              <span className="w-5 h-5 flex items-center justify-center"> {<r.icon size={18} />}</span>
               <span> {!collapsed && r.label}</span>
             </div>
           </Link>

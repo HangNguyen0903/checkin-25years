@@ -13,6 +13,7 @@ import {
   TableSortLabel,
 } from "@mui/material";
 import type { Column } from "../../../types/table";
+import NoData from "@/components/NoData";
 
 interface BaseTableProps<T> {
   columns: Column<T>[];
@@ -75,73 +76,82 @@ export default function DataTableGrid<T>({
         borderRadius: "12px",
       }}
     >
-      <TableContainer>
-        <Table stickyHeader>
-          <TableHead>
-            <TableRow>
-              <TableCell align="center" sx={{ width: 80, background: "#f9fafb" }}>
-                STT
-              </TableCell>
-              {columns.map((col) => (
-                <TableCell
-                  key={col.key as string}
-                  align={col.align || "left"}
-                  style={{ width: col.minWidth }}
-                  sx={{ background: "#f9fafb" }}
-                >
-                  {col.sortable ? (
-                    <TableSortLabel
-                      active={orderBy === col.key}
-                      direction={orderBy === col.key ? order : "asc"}
-                      onClick={() => handleSort(col)}
-                    >
-                      {col.label}
-                    </TableSortLabel>
-                  ) : (
-                    col.label
-                  )}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {paginatedRows.length > 0 ? (
-              paginatedRows.map((row, rowIndex) => (
-                <TableRow key={getRowId(row)}>
-                  <TableCell align="center">
-                    {page * rowsPerPage + rowIndex + 1}
+      {rows?.length > 0 ? (
+        <>
+          <TableContainer>
+            <Table stickyHeader>
+              <TableHead>
+                <TableRow>
+                  <TableCell
+                    align="center"
+                    sx={{ width: 80, background: "#f9fafb" }}
+                  >
+                    STT
                   </TableCell>
                   {columns.map((col) => (
                     <TableCell
                       key={col.key as string}
                       align={col.align || "left"}
+                      style={{ width: col.minWidth }}
+                      sx={{ background: "#f9fafb" }}
                     >
-                      {col.renderCell
-                        ? col.renderCell(row, helpers)
-                        : (row as any)[col.key] ?? "-"}
+                      {col.sortable ? (
+                        <TableSortLabel
+                          active={orderBy === col.key}
+                          direction={orderBy === col.key ? order : "asc"}
+                          onClick={() => handleSort(col)}
+                        >
+                          {col.label}
+                        </TableSortLabel>
+                      ) : (
+                        col.label
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={columns.length} align="center">
-                  No data available
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        rowsPerPageOptions={rowsPerPageOptions}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+              </TableHead>
+              <TableBody>
+                {paginatedRows.length > 0 ? (
+                  paginatedRows.map((row, rowIndex) => (
+                    <TableRow key={getRowId(row)}>
+                      <TableCell align="center">
+                        {page * rowsPerPage + rowIndex + 1}
+                      </TableCell>
+                      {columns.map((col) => (
+                        <TableCell
+                          key={col.key as string}
+                          align={col.align || "left"}
+                        >
+                          {col.renderCell
+                            ? col.renderCell(row, helpers)
+                            : (row as any)[col.key] ?? "-"}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={columns.length} align="center">
+                      No data available
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            component="div"
+            count={rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            rowsPerPageOptions={rowsPerPageOptions}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </>
+      ) : (
+        <NoData />
+      )}
     </Paper>
   );
 }

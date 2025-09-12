@@ -14,6 +14,7 @@ import {
   POSITION,
   STATUS,
 } from "@/constants/guest";
+import { defaultValuesGuest } from "@/constants/defaultValue";
 
 const ModalAddGuest = ({ open, setOpen, selectedData }: ModalProps) => {
   const [currentStatus, setCurrentStatus] = useState<string | number>("TM");
@@ -24,23 +25,7 @@ const ModalAddGuest = ({ open, setOpen, selectedData }: ModalProps) => {
     reset,
     formState: { errors },
   } = useForm<Guest>({
-    defaultValues: {
-      id: "",
-      object: "",
-      region: "",
-      title: "",
-      fullName: "",
-      position: "",
-      organization: "",
-      address: "",
-      email: "",
-      phone: "",
-      department: "",
-      tableCode: "",
-      status: "",
-      checkin: false,
-      note: "",
-    },
+    defaultValues: defaultValuesGuest,
   });
   const onSubmit = async (data: Guest) =>
     // data
@@ -54,27 +39,7 @@ const ModalAddGuest = ({ open, setOpen, selectedData }: ModalProps) => {
     };
 
   useEffect(() => {
-    if (selectedData) {
-      reset(selectedData);
-    } else {
-      reset({
-        id: "",
-        object: "",
-        region: "",
-        title: "",
-        fullName: "",
-        position: "",
-        organization: "",
-        address: "",
-        email: "",
-        phone: "",
-        department: "",
-        tableCode: "",
-        status: "",
-        checkin: false,
-        note: "",
-      });
-    }
+    reset(selectedData ?? defaultValuesGuest);
   }, [selectedData, open, reset]);
 
   return (
@@ -93,6 +58,7 @@ const ModalAddGuest = ({ open, setOpen, selectedData }: ModalProps) => {
                 required: "Họ & tên là bắt buộc",
               })}
               error={errors.fullName}
+              placeholder="Nhập họ & tên"
             />
             <Select
               title="Đối tượng"
@@ -112,8 +78,13 @@ const ModalAddGuest = ({ open, setOpen, selectedData }: ModalProps) => {
             <InputField
               label="Tên cơ quan"
               registration={register("organization")}
+              placeholder="Nhập tên cơ quan"
             />
-            <InputField label="Email" registration={register("email")} />
+            <InputField
+              label="Email"
+              registration={register("email")}
+              placeholder="Nhập email"
+            />
             <Select
               title="Phòng ban đề xuất"
               options={DEPARTMENT.map((ev: any) => ({
@@ -124,7 +95,10 @@ const ModalAddGuest = ({ open, setOpen, selectedData }: ModalProps) => {
               onChange={(val) => {
                 console.log("", val);
               }}
-              registration={register("department")}
+              registration={register("department", {
+                required: "Phòng ban là bắt buộc",
+              })}
+              error={errors.department}
             />
             <Select
               title="Trạng thái"
@@ -137,17 +111,25 @@ const ModalAddGuest = ({ open, setOpen, selectedData }: ModalProps) => {
                 console.log("", val);
                 setCurrentStatus(val);
               }}
-              registration={register("status")}
+              registration={register("status", {
+                required: "Trạng thái là bắt buộc",
+              })}
+              error={errors.status}
             />
             {(currentStatus === "DC" || selectedData?.status === "DC") && (
               <InputField
                 label="Họ & tên người thay thế"
                 registration={register("fullName_change")}
+                placeholder="Nhập họ & tên"
               />
             )}
           </div>
           <div className="space-y-4">
-            <InputField label="Danh xưng" registration={register("title")} />
+            <InputField
+              label="Danh xưng"
+              registration={register("title")}
+              placeholder="Nhập danh xưng"
+            />
             <Select
               title="Khu vực"
               options={POSITION.map((ev: any) => ({
@@ -167,17 +149,20 @@ const ModalAddGuest = ({ open, setOpen, selectedData }: ModalProps) => {
             <InputField
               label="Địa chỉ nhận thư tay"
               registration={register("address")}
+              placeholder="Nhập địa chỉ"
             />
             <InputField
               label="Số điện thoại"
               registration={register("phone")}
+              placeholder="Nhập số điện thoại"
             />
             <InputField
               label="Mã bàn tiệc"
               registration={register("tableCode", {
                 required: "Mã bàn tiệc là bắt buộc",
               })}
-              error={errors.fullName}
+              error={errors.tableCode}
+              placeholder="Nhập mã bàn tiệc"
             />
             <Select
               title="Checkin"
@@ -195,6 +180,7 @@ const ModalAddGuest = ({ open, setOpen, selectedData }: ModalProps) => {
               <InputField
                 label="Số điện thoại người thay thế"
                 registration={register("phone_change")}
+                placeholder="Nhập số điện thoại"
               />
             )}
           </div>

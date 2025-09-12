@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 type Props = {
-  username: string;
+  username?: string;
   avatarUrl?: string;
 };
 
@@ -15,7 +15,6 @@ const Header = ({ username, avatarUrl }: Props) => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    // chuyển về login
     navigate("/login");
   };
 
@@ -43,7 +42,6 @@ const Header = ({ username, avatarUrl }: Props) => {
               {username ?? "Username"}
             </span>
           </button>
-
           {open && (
             <div className="absolute right-0 mt-1 w-30 bg-white rounded shadow-lg">
               <button

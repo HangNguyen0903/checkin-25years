@@ -1,14 +1,18 @@
 import { Suspense } from "react";
 import "./App.css";
 import { BrowserRouter } from "react-router-dom";
-import RenderRoutes from "./routes/routes.map";
+import ErrorBoundary from "./common/ErrorBoundary";
+import LoadingScreen from "./common/LoadingScreen";
+import RenderRoutes from "./routes/AppRoutes";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Suspense fallback={<div className="p-6">⏳ Đang tải...</div>}>
-       <RenderRoutes/>
-      </Suspense>
+     <BrowserRouter>
+      <ErrorBoundary>
+        <Suspense fallback={<LoadingScreen />}>
+          <RenderRoutes />
+        </Suspense>
+      </ErrorBoundary>
     </BrowserRouter>
   );
 }
