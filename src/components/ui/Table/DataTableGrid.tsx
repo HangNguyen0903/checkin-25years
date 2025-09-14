@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // components/BaseTable.tsx
-import React, { useState } from "react";
 import {
   Table,
   TableBody,
@@ -21,51 +20,74 @@ interface BaseTableProps<T> {
   getRowId: (row: T) => string | number;
   rowsPerPageOptions?: number[];
   helpers?: Record<string, any>;
+  totalCount?: number;
+  orderBy?: string;
+  order?: "asc" | "desc";
+  loading?: boolean;
+  page: number;
+  onPageChange: (newPage: number) => void;
+  onRowsPerPageChange: (rowsPerPage: number) => void;
+  onSortChange?: (column: string, direction: "asc" | "desc") => void;
+  rowsPerPage: number;
 }
 
 export default function DataTableGrid<T>({
   columns,
   rows,
   getRowId,
-  rowsPerPageOptions = [5, 10, 25],
+  totalCount,
+  page,
+  rowsPerPage,
+  orderBy,
+  order,
+  loading,
+  onPageChange,
+  onRowsPerPageChange,
+  onSortChange,
   helpers,
 }: BaseTableProps<T>) {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[0]);
-  const [orderBy, setOrderBy] = useState<string>("");
-  const [order, setOrder] = useState<"asc" | "desc">("asc");
+  // const [page, setPage] = useState(0);
+  // const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[0]);
+  // const [orderBy, setOrderBy] = useState<string>("");
+  // const [order, setOrder] = useState<"asc" | "desc">("asc");
+
+  // const handleSort = (column: Column<T>) => {
+  //   if (!column.sortable) return;
+  //   const isAsc = orderBy === column.key && order === "asc";
+  //   setOrder(isAsc ? "desc" : "asc");
+  //   setOrderBy(column.key as string);
+  // };
+
+  // const sortedRows = React.useMemo(() => {
+  //   if (!orderBy) return rows;
+  //   return [...rows].sort((a: any, b: any) => {
+  //     if (a[orderBy] < b[orderBy]) return order === "asc" ? -1 : 1;
+  //     if (a[orderBy] > b[orderBy]) return order === "asc" ? 1 : -1;
+  //     return 0;
+  //   });
+  // }, [rows, orderBy, order]);
+
+  // const handleChangePage = (_: unknown, newPage: number) => {
+  //   setPage(newPage);
+  // };
+
+  // const handleChangeRowsPerPage = (
+  //   event: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   setRowsPerPage(parseInt(event.target.value, 10));
+  //   setPage(0);
+  // };
+
+  // const paginatedRows = sortedRows.slice(
+  //   page * rowsPerPage,
+  //   page * rowsPerPage + rowsPerPage
+  // );
 
   const handleSort = (column: Column<T>) => {
     if (!column.sortable) return;
     const isAsc = orderBy === column.key && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(column.key as string);
+    onSortChange?.(column.key as string, isAsc ? "desc" : "asc");
   };
-
-  const sortedRows = React.useMemo(() => {
-    if (!orderBy) return rows;
-    return [...rows].sort((a: any, b: any) => {
-      if (a[orderBy] < b[orderBy]) return order === "asc" ? -1 : 1;
-      if (a[orderBy] > b[orderBy]) return order === "asc" ? 1 : -1;
-      return 0;
-    });
-  }, [rows, orderBy, order]);
-
-  const handleChangePage = (_: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const paginatedRows = sortedRows.slice(
-    page * rowsPerPage,
-    page * rowsPerPage + rowsPerPage
-  );
 
   return (
     <Paper
@@ -76,7 +98,9 @@ export default function DataTableGrid<T>({
         borderRadius: "12px",
       }}
     >
-      {rows?.length > 0 ? (
+      {loading ? (
+        <div className="p-6 text-center">Đang tải dữ liệu...</div>
+      ) : rows?.length > 0 ? (
         <>
           <TableContainer>
             <Table stickyHeader>
@@ -111,6 +135,25 @@ export default function DataTableGrid<T>({
                 </TableRow>
               </TableHead>
               <TableBody>
+                {rows.map((row, rowIndex) => (
+                  <TableRow key={getRowId(row)}>
+                    <TableCell align="center">
+                      {page * rowsPerPage + rowIndex + 1}
+                    </TableCell>
+                    {columns.map((col) => (
+                      <TableCell
+                        key={col.key as string}
+                        align={col.align || "left"}
+                      >
+                        {col.renderCell
+                          ? col.renderCell(row, helpers)
+                          : (row as any)[col.key] ?? "-"}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+              {/* <TableBody>
                 {paginatedRows.length > 0 ? (
                   paginatedRows.map((row, rowIndex) => (
                     <TableRow key={getRowId(row)}>
@@ -136,10 +179,10 @@ export default function DataTableGrid<T>({
                     </TableCell>
                   </TableRow>
                 )}
-              </TableBody>
+              </TableBody> */}
             </Table>
           </TableContainer>
-          <TablePagination
+          {/* <TablePagination
             component="div"
             count={rows.length}
             rowsPerPage={rowsPerPage}
@@ -147,6 +190,17 @@ export default function DataTableGrid<T>({
             rowsPerPageOptions={rowsPerPageOptions}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
+          /> */}
+          <TablePagination
+            component="div"
+            count={totalCount ?? 0}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            rowsPerPageOptions={[5, 10, 25]}
+            onPageChange={(_, newPage) => onPageChange(newPage)}
+            onRowsPerPageChange={(e) =>
+              onRowsPerPageChange(parseInt(e.target.value, 10))
+            }
           />
         </>
       ) : (
