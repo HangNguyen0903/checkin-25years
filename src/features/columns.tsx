@@ -23,7 +23,7 @@ export const eventColumns: Column<Event>[] = [
         <Tooltip title="Xóa" placement="top">
           <Trash2
             size={16}
-            onClick={() => onDelete(row.id)}
+            onClick={() => onDelete(row)}
             className="text-red-500 hover:text-red-00 cursor-pointer"
           />
         </Tooltip>

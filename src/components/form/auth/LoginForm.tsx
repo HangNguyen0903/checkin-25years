@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import ButtonField from "../../ui/Button/ButtonField";
 import { Lock, User } from "lucide-react";
 import type { LoginFormInputs } from "../../../types/auth";
+import { login } from "@/api/auth";
+import { defaultLogin } from "@/constants/defaultValue";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -11,21 +13,25 @@ const LoginForm = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormInputs>();
+  } = useForm<LoginFormInputs>({
+    defaultValues: defaultLogin,
+  });
 
-  const onSubmit = async () =>
-    // data: LoginFormInputs
-    {
-      try {
-        //   const res = await axios.post("/api/auth/login", data);
-        //   localStorage.setItem("token", res.data.token);
-        navigate("/guests");
-      } catch {
-        alert("Đăng nhập thất bại!");
-      } finally {
-        navigate("/guests");
+  const onSubmit = async (data: LoginFormInputs) => {
+    try {
+      const res = await login.post("/api/auth/login", data);
+      if (res?.data?.token) {
+        localStorage.setItem("token", res.data.token);
+        alert("Đăng nhập thành công!");
+        // toast.success("Đăng nhập thành công!");
+        navigate("/events");
+      } else {
+        alert(res.data.detail);
       }
-    };
+    } catch {
+      alert("Đăng nhập thất bại!");
+    }
+  };
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -36,11 +42,12 @@ const LoginForm = () => {
         label="Tên đăng nhập"
         type="text"
         placeholder="Nhập tên đăng nhập"
-        registration={register("username", {
+        registration={register("userName", {
           required: "Tên đăng nhập là bắt buộc",
         })}
-        error={errors.username}
+        error={errors.userName}
         leftIcon={<User size={16} />}
+        required
       />
       <InputField
         label="Mật khẩu"
@@ -51,6 +58,7 @@ const LoginForm = () => {
         })}
         error={errors.password}
         leftIcon={<Lock size={16} />}
+        required
       />
       <ButtonField type="submit" color="primary" text="Đăng nhập" fullWidth />
     </form>

@@ -16,6 +16,7 @@ interface SelectProps {
   className?: string;
   error?: FieldError;
   registration?: UseFormRegisterReturn;
+  required?: boolean;
 }
 
 const Select: React.FC<SelectProps> = ({
@@ -27,13 +28,14 @@ const Select: React.FC<SelectProps> = ({
   className = "",
   registration,
   error,
+  required,
 }) => {
   return (
     <div className="">
       {title && (
         <label className="block font-medium mb-1">
           {title}
-          {registration && <span className="text-red-500 ml-1">*</span>}
+          {required && <span className="text-red-500 ml-1">*</span>}
         </label>
       )}
       <select

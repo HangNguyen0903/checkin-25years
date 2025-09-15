@@ -27,16 +27,14 @@ const ModalAddGuest = ({ open, setOpen, selectedData }: ModalProps) => {
   } = useForm<Guest>({
     defaultValues: defaultValuesGuest,
   });
-  const onSubmit = async (data: Guest) =>
-    // data
-    {
-      console.log("data_guest", data);
-      try {
-        alert("Thêm sự kiện thành công");
-      } catch {
-        alert("Thêm thất bại");
-      }
-    };
+  const onSubmit = async (data: Guest) => {
+    try {
+      console.log("data", data);
+      alert("Thêm sự kiện thành công");
+    } catch {
+      alert("Thêm thất bại");
+    }
+  };
 
   useEffect(() => {
     reset(selectedData ?? defaultValuesGuest);
@@ -59,6 +57,7 @@ const ModalAddGuest = ({ open, setOpen, selectedData }: ModalProps) => {
               })}
               error={errors.fullName}
               placeholder="Nhập họ & tên"
+              required
             />
             <Select
               title="Đối tượng"
@@ -74,6 +73,7 @@ const ModalAddGuest = ({ open, setOpen, selectedData }: ModalProps) => {
                 console.log("Chọn đối tượng:", val);
               }}
               error={errors.object}
+              required
             />
             <InputField
               label="Tên cơ quan"
@@ -95,10 +95,7 @@ const ModalAddGuest = ({ open, setOpen, selectedData }: ModalProps) => {
               onChange={(val) => {
                 console.log("", val);
               }}
-              registration={register("department", {
-                required: "Phòng ban là bắt buộc",
-              })}
-              error={errors.department}
+              registration={register("department")}
             />
             <Select
               title="Trạng thái"
@@ -111,10 +108,7 @@ const ModalAddGuest = ({ open, setOpen, selectedData }: ModalProps) => {
                 console.log("", val);
                 setCurrentStatus(val);
               }}
-              registration={register("status", {
-                required: "Trạng thái là bắt buộc",
-              })}
-              error={errors.status}
+              registration={register("status")}
             />
             {(currentStatus === "DC" || selectedData?.status === "DC") && (
               <InputField
@@ -144,8 +138,8 @@ const ModalAddGuest = ({ open, setOpen, selectedData }: ModalProps) => {
                 console.log("Khu vực:", val);
               }}
               error={errors.position}
+              required
             />
-
             <InputField
               label="Địa chỉ nhận thư tay"
               registration={register("address")}
@@ -163,6 +157,7 @@ const ModalAddGuest = ({ open, setOpen, selectedData }: ModalProps) => {
               })}
               error={errors.tableCode}
               placeholder="Nhập mã bàn tiệc"
+              required
             />
             <Select
               title="Checkin"

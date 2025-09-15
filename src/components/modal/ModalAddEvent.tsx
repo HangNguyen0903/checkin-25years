@@ -6,6 +6,7 @@ import type { Event } from "@/types/events";
 import ButtonField from "../ui/Button/ButtonField";
 import { useEffect } from "react";
 import { defaultValuesEvent } from "@/constants/defaultValue";
+import { addEvent } from "@/api/events";
 
 const ModalAddEvent = ({ open, setOpen, selectedData }: ModalProps) => {
   const {
@@ -17,15 +18,17 @@ const ModalAddEvent = ({ open, setOpen, selectedData }: ModalProps) => {
     defaultValues: defaultValuesEvent,
   });
 
-  const onSubmit = async () =>
-    // data
-    {
-      try {
-        alert("Thêm sự kiện thành công");
-      } catch {
-        alert("Thêm thất bại");
-      }
-    };
+  const onSubmit = async (data: Event) => {
+    try {
+      console.log("data", data);
+      const res = await addEvent.post(`/api/events`, data);
+      console.log("res", res);
+      setOpen(false);
+      alert("Thêm sự kiện thành công");
+    } catch {
+      alert("Thêm thất bại");
+    }
+  };
 
   useEffect(() => {
     reset(selectedData ?? defaultValuesEvent);
@@ -46,6 +49,7 @@ const ModalAddEvent = ({ open, setOpen, selectedData }: ModalProps) => {
           })}
           error={errors.name}
           placeholder="Nhập tên sự kiện"
+          required
         />
         <InputField
           label="Mô tả"
@@ -55,6 +59,7 @@ const ModalAddEvent = ({ open, setOpen, selectedData }: ModalProps) => {
           })}
           error={errors.description}
           placeholder="Nhập mô tả"
+          required
         />
         <div className="flex justify-end gap-2">
           <ButtonField

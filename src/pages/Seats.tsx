@@ -4,7 +4,7 @@ import DataTableGrid from "../components/ui/Table/DataTableGrid";
 import InputField from "@/components/ui/Input/InputField";
 import ButtonField from "@/components/ui/Button/ButtonField";
 import { Plus, RefreshCcw } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ModalAddSeat from "@/components/modal/ModalAddSeat";
 import type { Seat } from "@/types/seats";
 import Select from "@/components/ui/Select/SelectField";
@@ -12,6 +12,14 @@ import Select from "@/components/ui/Select/SelectField";
 const Seats = () => {
   const [open, setOpen] = useState(false);
   const [selectedSeat, setSelectedSeat] = useState<Seat | undefined>();
+
+  const [totalCount] = useState(0);
+  const [loading] = useState(false);
+
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [orderBy, setOrderBy] = useState<string>();
+  const [order, setOrder] = useState<"asc" | "desc">("asc");
 
   const handleChangeEvent = (event?: Seat) => {
     setOpen(true);
@@ -22,16 +30,23 @@ const Seats = () => {
     console.log(`Xóa thành công ${id}`);
   };
 
+  useEffect(() => {
+    // fetchEvents();
+  }, [open]);
+
   return (
     <div className="bg-white shadow border border-gray-100 rounded-lg">
       <div className="border-b-1 border-gray-300">
         <div className="flex justify-between items-start p-4">
           <div className="flex gap-2">
-            <InputField placeholder="Nhập Tên vị trí, Mã vị trí" />
+            <InputField
+              placeholder="Nhập Tên vị trí, Mã vị trí"
+              width="lg:w-[250px]"
+            />
             <Select
               options={events.map((ev) => ({
                 label: ev.name,
-                value: ev.id,
+                value: ev.name,
               }))}
               placeholder="Chọn sự kiện"
               onChange={(val) => {
@@ -62,6 +77,18 @@ const Seats = () => {
           columns={seatColumns}
           rows={seats}
           getRowId={(row) => row.uuid}
+          totalCount={totalCount}
+          rowsPerPage={rowsPerPage}
+          orderBy={orderBy}
+          order={order}
+          loading={loading}
+          onPageChange={setPage}
+          onRowsPerPageChange={setRowsPerPage}
+          onSortChange={(col, dir) => {
+            setOrderBy(col);
+            setOrder(dir);
+          }}
+          page={page}
           helpers={{
             onOpenModalEdit: (row: Seat) => handleChangeEvent(row),
             onDelete: (id: string) => handleDelete(id),

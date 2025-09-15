@@ -1,3 +1,4 @@
+import type { LoginFormInputs } from "@/types/auth";
 import type { Event } from "@/types/events";
 import type { Guest } from "@/types/guest";
 import type { Seat } from "@/types/seats";
@@ -21,7 +22,6 @@ export const defaultValuesGuest: Guest = {
 };
 
 export const defaultValuesEvent: Event = {
-  id: "",
   name: "",
   description: "",
 };
@@ -31,4 +31,8 @@ export const defaultValuesSeat: Seat = {
   name: "",
   image: "",
   event: defaultValuesEvent,
+};
+export const defaultLogin: LoginFormInputs = {
+  userName: "admin03",
+  password: "123456a@",
 };

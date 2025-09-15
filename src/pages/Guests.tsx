@@ -13,6 +13,15 @@ import ModalCheckin from "@/components/modal/ModalCheckin";
 
 const Guests = () => {
   const [data] = useState<Guest[]>(mockGuests);
+  const [totalCount] = useState(0);
+  const [loading] = useState(false);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [orderBy, setOrderBy] = useState<string>();
+  const [order, setOrder] = useState<"asc" | "desc">("asc");
+  const [open, setOpen] = useState(false);
+  const [isCheckin, setIsCheckin] = useState(false);
+  const [selectedGuest, setSelectedGuest] = useState<Guest | undefined>();
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -26,10 +35,6 @@ const Guests = () => {
       e.target.value = "";
     }
   };
-
-  const [open, setOpen] = useState(false);
-  const [isCheckin, setIsCheckin] = useState(false);
-  const [selectedGuest, setSelectedGuest] = useState<Guest | undefined>();
 
   const handleChangeEvent = (guest?: Guest) => {
     setOpen(true);
@@ -51,11 +56,14 @@ const Guests = () => {
         <div className="flex justify-between items-start p-4">
           <div className="space-y-2">
             <div className="flex gap-3">
-              <InputField placeholder="Họ và tên, Số điện thoại, Mã bàn tiệc" />
+              <InputField
+                placeholder="Họ và tên, Số điện thoại, Mã bàn tiệc"
+                width="lg:w-[300px]"
+              />
               <Select
                 options={events.map((ev) => ({
                   label: ev.name,
-                  value: ev.id,
+                  value: ev.name,
                 }))}
                 placeholder="Chọn sự kiện"
                 onChange={(val) => {
@@ -65,7 +73,7 @@ const Guests = () => {
               <Select
                 options={events.map((ev) => ({
                   label: ev.name,
-                  value: ev.id,
+                  value: ev.name,
                 }))}
                 placeholder="Trạng thái checkin"
                 onChange={(val) => {
@@ -75,7 +83,7 @@ const Guests = () => {
               <Select
                 options={events.map((ev) => ({
                   label: ev.name,
-                  value: ev.id,
+                  value: ev.name,
                 }))}
                 placeholder="Trạng thái"
                 onChange={(val) => {
@@ -128,6 +136,18 @@ const Guests = () => {
           columns={guestColumns}
           rows={data}
           getRowId={(row) => row.id}
+          totalCount={totalCount}
+          rowsPerPage={rowsPerPage}
+          orderBy={orderBy}
+          order={order}
+          loading={loading}
+          onPageChange={setPage}
+          onRowsPerPageChange={setRowsPerPage}
+          onSortChange={(col, dir) => {
+            setOrderBy(col);
+            setOrder(dir);
+          }}
+          page={page}
           helpers={{
             onEdit: (row: Guest) => handleChangeEvent(row),
             onDelete: (id: string) => handleDelete(id),

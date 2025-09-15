@@ -10,6 +10,7 @@ import {
   TablePagination,
   Paper,
   TableSortLabel,
+  CircularProgress,
 } from "@mui/material";
 import type { Column } from "../../../types/table";
 import NoData from "@/components/NoData";
@@ -17,7 +18,7 @@ import NoData from "@/components/NoData";
 interface BaseTableProps<T> {
   columns: Column<T>[];
   rows: T[];
-  getRowId: (row: T) => string | number;
+  getRowId: (row: T) => string | number | undefined;
   rowsPerPageOptions?: number[];
   helpers?: Record<string, any>;
   totalCount?: number;
@@ -34,7 +35,7 @@ interface BaseTableProps<T> {
 export default function DataTableGrid<T>({
   columns,
   rows,
-  getRowId,
+  // getRowId,
   totalCount,
   page,
   rowsPerPage,
@@ -99,7 +100,12 @@ export default function DataTableGrid<T>({
       }}
     >
       {loading ? (
-        <div className="p-6 text-center">Đang tải dữ liệu...</div>
+        <div className="p-6 text-center">
+          <div className="space-y-2">
+            <CircularProgress />
+            <p> Đang tải dữ liệu...</p>
+          </div>
+        </div>
       ) : rows?.length > 0 ? (
         <>
           <TableContainer>
@@ -136,7 +142,7 @@ export default function DataTableGrid<T>({
               </TableHead>
               <TableBody>
                 {rows.map((row, rowIndex) => (
-                  <TableRow key={getRowId(row)}>
+                  <TableRow key={rowIndex}>
                     <TableCell align="center">
                       {page * rowsPerPage + rowIndex + 1}
                     </TableCell>

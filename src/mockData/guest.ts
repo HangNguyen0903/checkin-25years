@@ -79,33 +79,30 @@ export const seats: Seat[] = [
   {
     uuid: "H1DA",
     name: "Hàng 1 Dãy A",
-    event: { id: "SK01", name: "25 năm thành lập IIG" },
+    event: { name: "25 năm thành lập IIG", description: "" },
   },
   {
     uuid: "H2DA",
     name: "Hàng 1 Dãy A",
-    event: { id: "SK02", name: "30 năm thành lập IIG" },
+    event: { name: "25 năm thành lập IIG", description: "" },
   },
   {
     uuid: "H1DB",
     name: "Hàng 1 Dãy A",
-    event: { id: "SK03", name: "35 năm thành lập IIG" },
+    event: { name: "25 năm thành lập IIG", description: "" },
   },
 ];
 
 export const events: Event[] = [
   {
-    id: "SK01",
     name: "25 năm thành lập IIG",
     description: "Lễ kỷ niệm 25 năm thành lập IIG diễn ra tại HN",
   },
   {
-    id: "SK02",
     name: "30 năm thành lập IIG",
     description: "Lễ kỷ niệm 25 năm thành lập IIG diễn ra tại HN",
   },
   {
-    id: "SK03",
     name: "35 năm thành lập IIG",
     description: "Lễ kỷ niệm 25 năm thành lập IIG diễn ra tại HN",
   },

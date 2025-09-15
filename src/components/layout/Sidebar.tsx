@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const Sidebar = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   return (
     <aside
       className={`h-screen bg-white transition-all duration-300
@@ -38,7 +38,9 @@ const Sidebar = () => {
             }`}
           >
             <div className="flex gap-2 text-sm items-center">
-              <span className="w-5 h-5 flex items-center justify-center"> {<r.icon size={18} />}</span>
+              <span className="w-5 h-5 flex items-center justify-center">
+                {<r.icon size={18} />}
+              </span>
               <span> {!collapsed && r.label}</span>
             </div>
           </Link>

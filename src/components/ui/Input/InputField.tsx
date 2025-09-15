@@ -11,7 +11,10 @@ type Props = {
   registration?: UseFormRegisterReturn;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
+  className?: string;
   width?: string;
+  required?: boolean;
+  row?: number;
 };
 
 export default function InputField({
@@ -22,7 +25,10 @@ export default function InputField({
   registration,
   leftIcon,
   rightIcon,
+  className,
   width,
+  required,
+  row,
 }: Props) {
   const [showPassword, setShowPassword] = useState(false);
   const isPassword = type === "password";
@@ -31,9 +37,7 @@ export default function InputField({
       {label && (
         <label className="block font-medium mb-1">
           {label}
-          {registration && error && (
-            <span className="text-red-500 ml-1">*</span>
-          )}
+          {required && <span className="text-red-500 ml-1">*</span>}
         </label>
       )}
       {type === "textarea" ? (
@@ -45,7 +49,7 @@ export default function InputField({
               ? "border-red-500 focus:ring-red-400"
               : "border-gray-300 focus:ring-blue-400"
           }`}
-          rows={4}
+          rows={row ?? 5}
         />
       ) : (
         <div className="relative w-full">
@@ -58,16 +62,15 @@ export default function InputField({
             type={isPassword ? (showPassword ? "text" : "password") : type}
             placeholder={placeholder}
             {...registration}
-            className={`border ${
-              width ? `w-[${width}]` : "w-full"
-            } py-1 rounded-md focus:outline-none focus:ring-3 
+            className={`border py-1 rounded-md focus:outline-none focus:ring-3 
+              ${width ?? "w-full"}
               ${leftIcon ? "pl-8" : "pl-2"}
               ${isPassword || rightIcon ? "pr-8" : "pr-2"}
               ${
                 error
                   ? "border-red-500 focus:ring-red-400"
                   : "border-gray-300 focus:ring-gray-400 "
-              }`}
+              } ${className}`}
           />
           {isPassword ? (
             <button

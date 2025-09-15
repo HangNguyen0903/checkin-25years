@@ -20,7 +20,7 @@ const ModalAddSeat = ({ open, setOpen, selectedData }: ModalProps) => {
     reset,
     formState: { errors },
   } = useForm<Seat>({
-    defaultValues: defaultValuesSeat
+    defaultValues: defaultValuesSeat,
   });
 
   const onSubmit = async (data: Seat) => console.log("data", data);
@@ -57,6 +57,7 @@ const ModalAddSeat = ({ open, setOpen, selectedData }: ModalProps) => {
             required: "Mã vị trí là bắt buộc",
           })}
           error={errors.uuid}
+          required
         />
         <InputField
           label="Tên vị trí"
@@ -64,12 +65,13 @@ const ModalAddSeat = ({ open, setOpen, selectedData }: ModalProps) => {
             required: "Tên vị trí là bắt buộc",
           })}
           error={errors.name}
+          required
         />
         <Select
           title="Sự kiện"
           options={events.map((ev) => ({
             label: ev.name,
-            value: ev.id,
+            value: ev.name,
           }))}
           placeholder="Chọn sự kiện"
           registration={register("event.id", {
@@ -79,6 +81,7 @@ const ModalAddSeat = ({ open, setOpen, selectedData }: ModalProps) => {
             console.log("Bạn vừa chọn sự kiện:", val);
           }}
           error={errors.event?.id}
+          required
         />
         <div className="space-y-2">
           <div className="font-medium">Ảnh vị trí *</div>
