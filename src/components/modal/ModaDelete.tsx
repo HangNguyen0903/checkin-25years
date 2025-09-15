@@ -3,8 +3,10 @@ import BaseModal from "../ui/Modal/ModalBase";
 import { useForm } from "react-hook-form";
 import type { Seat } from "@/types/seats";
 import ButtonField from "../ui/Button/ButtonField";
+import { toast } from "react-toastify";
+import { deleteEvent } from "@/services/eventService";
 
-const ModaDelete = ({ open, setOpen, selectedData }: ModalProps) => {
+const ModaDelete = ({ open, setOpen, selectedData, onSuccess }: ModalProps) => {
   console.log("aaaaa", selectedData);
   const {
     // register,
@@ -16,14 +18,13 @@ const ModaDelete = ({ open, setOpen, selectedData }: ModalProps) => {
   });
 
   const onSubmit = async () => {
+    if (!selectedData?.id) return;
     try {
-      await fetch(`${import.meta.env.VITE_API}api/events/${selectedData.id}`, {
-        method: "DELETE",
-      });
-      setOpen(false);
-      alert("Xóa thành công");
+      await deleteEvent(selectedData.id);
+      toast.success("Xóa sự kiện thành công!");
+      onSuccess?.();
     } catch {
-      alert("Lỗi");
+      toast.error("Không thể xóa sự kiện!");
     }
   };
 

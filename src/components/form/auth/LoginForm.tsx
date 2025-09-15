@@ -1,11 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
 import InputField from "../../ui/Input/InputField";
 import { useNavigate } from "react-router-dom";
 import ButtonField from "../../ui/Button/ButtonField";
 import { Lock, User } from "lucide-react";
 import type { LoginFormInputs } from "../../../types/auth";
-import { login } from "@/api/auth";
 import { defaultLogin } from "@/constants/defaultValue";
+import { loginUser } from "@/services/authService";
+import { toast } from "react-toastify";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -19,17 +21,17 @@ const LoginForm = () => {
 
   const onSubmit = async (data: LoginFormInputs) => {
     try {
-      const res = await login.post("/api/auth/login", data);
-      if (res?.data?.token) {
-        localStorage.setItem("token", res.data.token);
-        alert("Đăng nhập thành công!");
-        // toast.success("Đăng nhập thành công!");
+      const res = await loginUser(data);
+
+      if (res?.token) {
+        localStorage.setItem("token", res.token);
+        toast.success("Đăng nhập thành công!");
         navigate("/events");
       } else {
-        alert(res.data.detail);
+        toast.error(res?.detail || "Đăng nhập thất bại!");
       }
-    } catch {
-      alert("Đăng nhập thất bại!");
+    } catch (err: any) {
+      toast.error(err?.detail || "Có lỗi xảy ra khi đăng nhập");
     }
   };
   return (

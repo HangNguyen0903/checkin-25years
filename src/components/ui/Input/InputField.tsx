@@ -15,6 +15,8 @@ type Props = {
   width?: string;
   required?: boolean;
   row?: number;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export default function InputField({
@@ -29,6 +31,8 @@ export default function InputField({
   width,
   required,
   row,
+  value,
+  onChange,
 }: Props) {
   const [showPassword, setShowPassword] = useState(false);
   const isPassword = type === "password";
@@ -62,6 +66,8 @@ export default function InputField({
             type={isPassword ? (showPassword ? "text" : "password") : type}
             placeholder={placeholder}
             {...registration}
+            value={value}
+            onChange={onChange}
             className={`border py-1 rounded-md focus:outline-none focus:ring-3 
               ${width ?? "w-full"}
               ${leftIcon ? "pl-8" : "pl-2"}

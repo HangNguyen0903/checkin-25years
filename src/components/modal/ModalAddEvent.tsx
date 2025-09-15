@@ -6,9 +6,10 @@ import type { Event } from "@/types/events";
 import ButtonField from "../ui/Button/ButtonField";
 import { useEffect } from "react";
 import { defaultValuesEvent } from "@/constants/defaultValue";
-import { addEvent } from "@/api/events";
+import { createEvent, updateEvent } from "@/services/eventService";
+import { toast } from "react-toastify";
 
-const ModalAddEvent = ({ open, setOpen, selectedData }: ModalProps) => {
+const ModalAddEvent = ({ open, setOpen, selectedData, onSuccess }: ModalProps) => {
   const {
     register,
     handleSubmit,
@@ -20,13 +21,18 @@ const ModalAddEvent = ({ open, setOpen, selectedData }: ModalProps) => {
 
   const onSubmit = async (data: Event) => {
     try {
-      console.log("data", data);
-      const res = await addEvent.post(`/api/events`, data);
-      console.log("res", res);
+      if (data?.id) {
+        await updateEvent(data?.id, data);
+        toast.success("Cập nhật sự kiện thành công!");
+      } else {
+        await createEvent(data);
+        toast.success("Thêm sự kiện thành công!");
+      }
       setOpen(false);
-      alert("Thêm sự kiện thành công");
+      reset(defaultValuesEvent);
+      onSuccess?.();
     } catch {
-      alert("Thêm thất bại");
+      toast.error("Lưu sự kiện thất bại!");
     }
   };
 
