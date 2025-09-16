@@ -17,7 +17,7 @@ const Events = () => {
     rowsPerPage: 10,
     orderBy: undefined as string | undefined,
     order: "asc" as "asc" | "desc",
-    filter: "",
+    name: "",
   });
 
   const [modal, setModal] = useState<{
@@ -80,13 +80,18 @@ const Events = () => {
           <div className="flex gap-2">
             <InputField
               placeholder="Tên sự kiện"
-              value={filter.filter}
+              value={filter.name}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setFilter((prev) => ({ ...prev, filter: e.target.value }))
+                setFilter((prev) => ({ ...prev, name: e.target.value }))
               }
               leftIcon={<Search size={14} />}
             />
-            <ButtonField type="button" color="primary" text="Tìm kiếm" onClick={fetchEvents} />
+            <ButtonField
+              type="button"
+              color="primary"
+              text="Tìm kiếm"
+              onClick={fetchEvents}
+            />
           </div>
           <div>
             <ButtonField
@@ -140,6 +145,7 @@ const Events = () => {
           setOpen={handleCloseModal}
           // selectedData={selectedEvent}
           selectedData={modal.data}
+          onSuccess={fetchEvents}
         />
       )}
       {modal.type === "delete" && (

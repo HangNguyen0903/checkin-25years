@@ -17,6 +17,8 @@ type Props = {
   row?: number;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  minLength?: number;
+  maxLength?: number;
 };
 
 export default function InputField({
@@ -33,6 +35,8 @@ export default function InputField({
   row,
   value,
   onChange,
+  minLength,
+  maxLength,
 }: Props) {
   const [showPassword, setShowPassword] = useState(false);
   const isPassword = type === "password";
@@ -54,6 +58,8 @@ export default function InputField({
               : "border-gray-300 focus:ring-blue-400"
           }`}
           rows={row ?? 5}
+          maxLength={maxLength}
+          minLength={minLength}
         />
       ) : (
         <div className="relative w-full">
@@ -75,7 +81,7 @@ export default function InputField({
               ${
                 error
                   ? "border-red-500 focus:ring-red-400"
-                  : "border-gray-300 focus:ring-gray-400 "
+                  : "border-gray-300 focus:ring-blue-400 "
               } ${className}`}
           />
           {isPassword ? (

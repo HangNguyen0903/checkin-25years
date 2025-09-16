@@ -9,7 +9,12 @@ import { defaultValuesEvent } from "@/constants/defaultValue";
 import { createEvent, updateEvent } from "@/services/eventService";
 import { toast } from "react-toastify";
 
-const ModalAddEvent = ({ open, setOpen, selectedData, onSuccess }: ModalProps) => {
+const ModalAddEvent = ({
+  open,
+  setOpen,
+  selectedData,
+  onSuccess,
+}: ModalProps) => {
   const {
     register,
     handleSubmit,
@@ -28,9 +33,9 @@ const ModalAddEvent = ({ open, setOpen, selectedData, onSuccess }: ModalProps) =
         await createEvent(data);
         toast.success("Thêm sự kiện thành công!");
       }
+      onSuccess?.();
       setOpen(false);
       reset(defaultValuesEvent);
-      onSuccess?.();
     } catch {
       toast.error("Lưu sự kiện thất bại!");
     }

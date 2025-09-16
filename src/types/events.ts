@@ -9,5 +9,5 @@ export interface EventsParams {
   limit?: number;
   orderBy?: string;
   order?: "asc" | "desc";
-  filter?: string;
+  name?: string;
 }

@@ -27,10 +27,10 @@ export const defaultValuesEvent: Event = {
 };
 
 export const defaultValuesSeat: Seat = {
-  uuid: "",
-  name: "",
-  image: "",
-  event: defaultValuesEvent,
+  code: "",
+  description: "",
+  imageFileId: "",
+  anniversaryEventId: "",
 };
 export const defaultLogin: LoginFormInputs = {
   userName: "admin03",

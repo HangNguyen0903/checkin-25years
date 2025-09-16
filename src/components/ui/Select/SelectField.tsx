@@ -3,7 +3,7 @@ import type { FieldError, UseFormRegisterReturn } from "react-hook-form";
 
 interface Option {
   label: string;
-  value: string | number;
+  value?: string | number;
 }
 
 interface SelectProps {

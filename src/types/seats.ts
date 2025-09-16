@@ -1,8 +1,6 @@
-import type { Event } from "./events";
-
 export interface Seat {
-  uuid: string;
-  name: string;
-  image?: string;
-  event: Event;
+  code: string;
+  description: string;
+  imageFileId?: string;
+  anniversaryEventId: string;
 }

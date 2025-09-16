@@ -77,19 +77,19 @@ export const mockGuests: Guest[] = [
 
 export const seats: Seat[] = [
   {
-    uuid: "H1DA",
-    name: "Hàng 1 Dãy A",
-    event: { name: "25 năm thành lập IIG", description: "" },
+    code: "H1DA",
+    description: "Hàng 1 Dãy A",
+    anniversaryEventId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   },
   {
-    uuid: "H2DA",
-    name: "Hàng 1 Dãy A",
-    event: { name: "25 năm thành lập IIG", description: "" },
+    code: "H2DA",
+    description: "Hàng 1 Dãy A",
+    anniversaryEventId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   },
   {
-    uuid: "H1DB",
-    name: "Hàng 1 Dãy A",
-    event: { name: "25 năm thành lập IIG", description: "" },
+    code: "H1DB",
+    description: "Hàng 1 Dãy A",
+    anniversaryEventId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   },
 ];
 

@@ -23,6 +23,7 @@ const ModaDelete = ({ open, setOpen, selectedData, onSuccess }: ModalProps) => {
       await deleteEvent(selectedData.id);
       toast.success("Xóa sự kiện thành công!");
       onSuccess?.();
+      setOpen(false);
     } catch {
       toast.error("Không thể xóa sự kiện!");
     }

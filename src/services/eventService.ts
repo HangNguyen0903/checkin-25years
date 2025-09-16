@@ -1,7 +1,6 @@
 import { event } from "@/api/events";
 import type { Event, EventsParams } from "@/types/events";
 
-
 export const getEvents = async (params?: EventsParams) => {
   const res = await event.get("/api/events", { params });
   return res.data;
@@ -13,7 +12,7 @@ export const createEvent = async (data: Event) => {
 };
 
 export const updateEvent = async (id: string, data: Event) => {
-  const res = await event.put(`/api/events/${id}`, data);
+  const res = await event.patch(`/api/events/${id}`, data);
   return res.data;
 };
 
