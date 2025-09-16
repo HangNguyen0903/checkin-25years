@@ -5,13 +5,23 @@ import type { Seat } from "@/types/seats";
 import InputField from "../ui/Input/InputField";
 import ButtonField from "../ui/Button/ButtonField";
 import Select from "../ui/Select/SelectField";
-import { events } from "@/mockData/guest";
 import { IdCard } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { defaultValuesSeat } from "@/constants/defaultValue";
+import { createSeat } from "@/services/seatService";
+import { toast } from "react-toastify";
+import { getEvents } from "@/services/eventService";
+import type { Event } from "@/types/events";
 
-const ModalAddSeat = ({ open, setOpen, selectedData }: ModalProps) => {
+const ModalAddSeat = ({
+  open,
+  setOpen,
+  selectedData,
+  onSuccess,
+}: ModalProps) => {
   const [image, setImage] = useState<string | null>(null);
+  const [listEvents, setListEvents] = useState<Event[]>([]);
+
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const {
@@ -20,17 +30,26 @@ const ModalAddSeat = ({ open, setOpen, selectedData }: ModalProps) => {
     reset,
     formState: { errors },
   } = useForm<Seat>({
-    defaultValues: defaultValuesSeat
+    defaultValues: defaultValuesSeat,
   });
 
-  const onSubmit = async (data: Seat) => console.log("data", data);
-  {
-    // try {
-    //   alert("Thêm sự kiện thành công");
-    // } catch {
-    //   alert("Thêm thất bại");
-    // }
-  }
+  const onSubmit = async (data: Seat) => {
+    try {
+      console.log("data", data);
+      //  if (data?.code) {
+      //    await updateEvent(data?.id, data);
+      //    toast.success("Cập nhật sự kiện thành công!");
+      //  } else {
+      await createSeat(data);
+      toast.success("Thêm vị trí thành công!");
+      //  }
+      onSuccess?.();
+      setOpen(false);
+      reset(defaultValuesSeat);
+    } catch {
+      toast.error("Lưu vị trí thất bại!");
+    }
+  };
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -39,9 +58,22 @@ const ModalAddSeat = ({ open, setOpen, selectedData }: ModalProps) => {
       setImage(imageUrl);
     }
   };
+
   useEffect(() => {
     reset(selectedData ?? defaultValuesSeat);
   }, [selectedData, open, reset]);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const listEvents = await getEvents();
+        setListEvents(listEvents);
+      } catch (err) {
+        console.error("Error fetching events:", err);
+      }
+    };
+    fetchEvents();
+  }, []);
 
   return (
     <BaseModal
@@ -53,32 +85,35 @@ const ModalAddSeat = ({ open, setOpen, selectedData }: ModalProps) => {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <InputField
           label="Mã vị trí"
-          registration={register("uuid", {
+          registration={register("code", {
             required: "Mã vị trí là bắt buộc",
           })}
-          error={errors.uuid}
+          error={errors.code}
+          required
         />
         <InputField
           label="Tên vị trí"
-          registration={register("name", {
+          registration={register("description", {
             required: "Tên vị trí là bắt buộc",
           })}
-          error={errors.name}
+          error={errors.description}
+          required
         />
         <Select
           title="Sự kiện"
-          options={events.map((ev) => ({
-            label: ev.name,
-            value: ev.id,
+          options={listEvents.map((ev) => ({
+            label: ev?.name,
+            value: ev?.id,
           }))}
           placeholder="Chọn sự kiện"
-          registration={register("event.id", {
+          registration={register("anniversaryEventId", {
             required: "Sự kiện là bắt buộc",
           })}
           onChange={(val) => {
             console.log("Bạn vừa chọn sự kiện:", val);
           }}
-          error={errors.event?.id}
+          error={errors.anniversaryEventId}
+          required
         />
         <div className="space-y-2">
           <div className="font-medium">Ảnh vị trí *</div>
