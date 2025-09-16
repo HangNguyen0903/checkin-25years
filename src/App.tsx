@@ -4,16 +4,22 @@ import { BrowserRouter } from "react-router-dom";
 import ErrorBoundary from "./common/ErrorBoundary";
 import LoadingScreen from "./common/LoadingScreen";
 import RenderRoutes from "./routes/AppRoutes";
+import { SignalRContext } from "./context/signalr-context";
 
 function App() {
   return (
-     <BrowserRouter>
-      <ErrorBoundary>
-        <Suspense fallback={<LoadingScreen />}>
-          <RenderRoutes />
-        </Suspense>
-      </ErrorBoundary>
-    </BrowserRouter>
+    <SignalRContext.Provider
+      url={`${import.meta.env.VITE_API}wishHub`}
+      connectEnabled={true}
+    >
+      <BrowserRouter>
+        <ErrorBoundary>
+          <Suspense fallback={<LoadingScreen />}>
+            <RenderRoutes />
+          </Suspense>
+        </ErrorBoundary>
+      </BrowserRouter>
+    </SignalRContext.Provider>
   );
 }
 
