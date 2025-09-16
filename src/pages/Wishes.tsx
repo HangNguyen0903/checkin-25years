@@ -4,29 +4,41 @@ import type { Wish } from "@/types/wishes";
 import { SignalRContext } from "@/context/signalr-context";
 
 export default function WishesScreen() {
-  const [wishes, setWishes] = useState<Wish[]>([]);
-  console.log("wishes", wishes);
+  const [wishes, setWishes] = useState<Wish[]>([{user:"IIG VN",message:"Chúc mừng kỷ niệm 25 năm thành lập IIG Việt Nam!"}]);
+
   // SignalRContext.useSignalREffect(
   //   "ReceiveWish",
   //   (wish: Wish) => {
-  //     setWishes((prev) => [...prev, wish]);
+  //     setWishes((prev) => {
+  //       const updated = [...prev, wish];
+  //       return updated.slice(-20);
+  //     });
+  //     setTimeout(() => {
+  //       setWishes((prev) => prev.filter((w) => w !== wish));
+  //     }, 3000);
   //   },
   //   []
   // );
   SignalRContext.useSignalREffect(
     "ReceiveWish",
     (wish: Wish) => {
+      const id = Date.now().toString(); // tạo id duy nhất
+      const newWish = { ...wish, id };
+
       setWishes((prev) => {
-        const updated = [...prev, wish];
-        return updated.slice(-20);
+        const updated = [...prev, newWish];
+        if (updated.length > 20) {
+          updated.shift(); 
+        }
+        return updated;
       });
+
       setTimeout(() => {
-        setWishes((prev) => prev.filter((w) => w !== wish));
-      }, 3000);
+        setWishes((prev) => prev.filter((w) => w.id !== id));
+      }, 5000);
     },
     []
   );
-
   return (
     <div
       className="relative flex items-center justify-center min-h-screen bg-gradient-to-br
@@ -46,13 +58,14 @@ export default function WishesScreen() {
               key={wish.user}
               initial={{
                 opacity: 1,
-                y: 50,
-                x: Math.random() * window.innerWidth,
+
+                y: Math.random() * (window.innerHeight - 200),
+                x: Math.random() * (window.innerWidth - 320),
               }}
               animate={{
                 opacity: 1,
-                y: Math.random() * window.innerHeight,
-                x: Math.random() * window.innerWidth,
+                y: Math.random() * (window.innerHeight - 200),
+                x: Math.random() * (window.innerWidth - 320),
               }}
               exit={{ opacity: 0 }}
               transition={{ duration: 10, ease: "easeOut" }}
