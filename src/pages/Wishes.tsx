@@ -4,31 +4,22 @@ import type { Wish } from "@/types/wishes";
 import { SignalRContext } from "@/context/signalr-context";
 
 export default function WishesScreen() {
-  const [wishes, setWishes] = useState<Wish[]>([{user:"IIG VN",message:"Chúc mừng kỷ niệm 25 năm thành lập IIG Việt Nam!"}]);
+  const [wishes, setWishes] = useState<Wish[]>([]);
 
-  // SignalRContext.useSignalREffect(
-  //   "ReceiveWish",
-  //   (wish: Wish) => {
-  //     setWishes((prev) => {
-  //       const updated = [...prev, wish];
-  //       return updated.slice(-20);
-  //     });
-  //     setTimeout(() => {
-  //       setWishes((prev) => prev.filter((w) => w !== wish));
-  //     }, 3000);
-  //   },
-  //   []
-  // );
   SignalRContext.useSignalREffect(
     "ReceiveWish",
     (wish: Wish) => {
-      const id = Date.now().toString(); // tạo id duy nhất
-      const newWish = { ...wish, id };
-
+      const id = Date.now().toString();
+      const newWish = {
+        ...wish,
+        id,
+        x: Math.random() * (window.innerWidth - 320),
+        y: Math.random() * (window.innerHeight - 200),
+      };
       setWishes((prev) => {
         const updated = [...prev, newWish];
         if (updated.length > 20) {
-          updated.shift(); 
+          updated.shift();
         }
         return updated;
       });
@@ -39,10 +30,11 @@ export default function WishesScreen() {
     },
     []
   );
+
   return (
     <div
       className="relative flex items-center justify-center min-h-screen bg-gradient-to-br
-     from-[#5FA242]/30 via-[#F08022]/30 to-[#00539F]/100 bg-amber-50 bg-cover"
+     from-[#5FA242]/30 via-[#F08022]/30 to-[#00539F]/100 bg-amber-50"
       // style={{
       //   backgroundImage: "url('/public/bg3.png')",
       // }}
@@ -56,41 +48,29 @@ export default function WishesScreen() {
           {wishes?.map((wish) => (
             <motion.div
               key={wish.user}
-              initial={{
-                opacity: 1,
-
-                y: Math.random() * (window.innerHeight - 200),
-                x: Math.random() * (window.innerWidth - 320),
-              }}
-              animate={{
-                opacity: 1,
-                y: Math.random() * (window.innerHeight - 200),
-                x: Math.random() * (window.innerWidth - 320),
-              }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 10, ease: "easeOut" }}
-              className="absolute w-[320px]  bg-white shadow-lg rounded-2xl border border-gray-200 overflow-hidden bg-cover"
+              initial={{ opacity: 0, scale: 0.7 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.8 }}
               style={{
-                backgroundImage: "url('/public/bg.jpg')",
+                top: wish.y,
+                left: wish.x,
               }}
+              className="absolute w-[320px] bg-white shadow-lg rounded-2xl border border-gray-200 overflow-hidden bg-cover"
             >
               {/* <div className="absolute inset-0 bg-black/20" /> */}
-
-              {/* 🎉{wish.text} */}
-              {/* <div className="flex items-center gap-3 py-3 px-4 border-gray-100 bg-gradient-to-r from-[#5FA242]/10 to-[#00539F]/10"> */}
-              <div className="flex items-center gap-3 my-auto justify-center">
-                {/* <img
-                  src={"/public/bg.jpg"}
-                  alt={wish.name}
-                  className="w-10 h-10 rounded-full border"
-                /> */}
-                {/* <div className="flex gap-2 text-sm "> */}
-                <div className="flex gap-2 text-sm text-center mt-8 ">
-                  <span className="text-gray-500">Gửi từ:</span>
+              <div className="flex items-center gap-3 py-2 px-3 border-gray-100 bg-gradient-to-r from-[#5FA242]/10 to-[#00539F]/10">
+                {/* <div className="flex items-center gap-3 my-auto justify-center"> */}
+                <img
+                  src={"/public/ava1.svg"}
+                  alt={wish?.id}
+                  className="w-10 h-10 rounded-full border border-gray-100"
+                />
+                <div className="flex gap-2 text-sm text-center ">
+                  <span className="text-gray-500">Gửi từ</span>
                   <span className="font-semibold text-[#00539F]">
                     {wish?.user}
                   </span>
-                  {/* </div> */}
                 </div>
               </div>
               <div className="py-2 px-4 text-center">
@@ -99,8 +79,11 @@ export default function WishesScreen() {
                 </p>
               </div>
               {/* <div className="p-3 text-xs text-[#5FA242] border-t border-gray-100 font-semibold text-right"> */}
-              <div className="p-3 text-xs text-[#5FA242] font-semibold text-right">
-                🎉 IIG VN Wishes
+              <div
+                // className="p-3 text-xs text-[#5FA242] font-semibold text-right"
+                className="flex m-auto justify-end p-3 border-t border-gray-100"
+              >
+                <img src="/public/bg3.png" className="w-5" />
               </div>
             </motion.div>
           ))}

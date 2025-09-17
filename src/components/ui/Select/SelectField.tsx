@@ -48,7 +48,7 @@ const Select: React.FC<SelectProps> = ({
         name={registration?.name}
         ref={registration?.ref}
         disabled={disabled}
-        className={`border border-gray-300 rounded-md px- py-1 focus:ring-2 focus:ring-gray-400 w-full ${className} ${
+        className={`border border-gray-300 rounded-md px-1 py-2 focus:ring-2 focus:ring-gray-400 w-full ${className} ${
           error ? "border-red-500" : ""
         }`}
       >

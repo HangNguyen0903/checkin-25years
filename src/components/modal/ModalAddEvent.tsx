@@ -58,7 +58,7 @@ const ModalAddEvent = ({
           registration={register("name", {
             required: "Tên sự kiện là bắt buộc",
           })}
-          error={errors.name}
+          // error={errors.name}
           placeholder="Nhập tên sự kiện"
           required
         />
@@ -68,18 +68,25 @@ const ModalAddEvent = ({
           registration={register("description", {
             required: "Mô tả sự kiện là bắt buộc",
           })}
-          error={errors.description}
+          // error={errors.description}
           placeholder="Nhập mô tả"
           required
         />
-        <div className="flex justify-end gap-2">
-          <ButtonField
-            type="button"
-            color="secondary"
-            text="Hủy"
-            onClick={() => setOpen(false)}
-          />
-          <ButtonField type="submit" color="primary" text="Lưu" />
+        <div className="flex justify-between gap-2 items-start">
+          <div className="text-sm text-red-600 font-medium">
+            {errors?.name
+              ? errors?.name?.message
+              : errors?.description?.message}
+          </div>
+          <div className="flex gap-2">
+            <ButtonField
+              type="button"
+              color="secondary"
+              text="Hủy"
+              onClick={() => setOpen(false)}
+            />
+            <ButtonField type="submit" color="primary" text="Lưu" />
+          </div>
         </div>
       </form>
     </BaseModal>

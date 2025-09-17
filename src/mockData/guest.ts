@@ -1,4 +1,3 @@
-import type { Event } from "@/types/events";
 import type { Guest } from "@/types/guest";
 import type { Seat } from "@/types/seats";
 
@@ -90,20 +89,5 @@ export const seats: Seat[] = [
     code: "H1DB",
     description: "Hàng 1 Dãy A",
     anniversaryEventId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  },
-];
-
-export const events: Event[] = [
-  {
-    name: "25 năm thành lập IIG",
-    description: "Lễ kỷ niệm 25 năm thành lập IIG diễn ra tại HN",
-  },
-  {
-    name: "30 năm thành lập IIG",
-    description: "Lễ kỷ niệm 25 năm thành lập IIG diễn ra tại HN",
-  },
-  {
-    name: "35 năm thành lập IIG",
-    description: "Lễ kỷ niệm 25 năm thành lập IIG diễn ra tại HN",
   },
 ];

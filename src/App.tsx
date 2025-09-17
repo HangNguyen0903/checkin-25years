@@ -7,10 +7,11 @@ import RenderRoutes from "./routes/AppRoutes";
 import { SignalRContext } from "./context/signalr-context";
 
 function App() {
+  const isWishPage = location.pathname === "/wishes";
   return (
     <SignalRContext.Provider
       url={`${import.meta.env.VITE_API}wishHub`}
-      connectEnabled={true}
+      connectEnabled={isWishPage}
     >
       <BrowserRouter>
         <ErrorBoundary>

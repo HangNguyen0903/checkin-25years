@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-import type { FieldError, UseFormRegisterReturn } from "react-hook-form";
+import type { UseFormRegisterReturn } from "react-hook-form";
 
 type Props = {
   label?: string;
   type?: string;
   placeholder?: string;
-  error?: FieldError;
+  // error?: FieldError;
   registration?: UseFormRegisterReturn;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
@@ -25,7 +25,7 @@ export default function InputField({
   label,
   type = "text",
   placeholder,
-  error,
+  // error,
   registration,
   leftIcon,
   rightIcon,
@@ -52,11 +52,7 @@ export default function InputField({
         <textarea
           placeholder={placeholder}
           {...registration}
-          className={`border w-full p-2 rounded focus:outline-none focus:ring-2 resize-none ${
-            error
-              ? "border-red-500 focus:ring-red-400"
-              : "border-gray-300 focus:ring-blue-400"
-          }`}
+          className={`border border-gray-300 w-full p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400`}
           rows={row ?? 5}
           maxLength={maxLength}
           minLength={minLength}
@@ -74,15 +70,11 @@ export default function InputField({
             {...registration}
             value={value}
             onChange={onChange}
-            className={`border py-1 rounded-md focus:outline-none focus:ring-3 
+            className={`border border-gray-300 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 
               ${width ?? "w-full"}
               ${leftIcon ? "pl-8" : "pl-2"}
               ${isPassword || rightIcon ? "pr-8" : "pr-2"}
-              ${
-                error
-                  ? "border-red-500 focus:ring-red-400"
-                  : "border-gray-300 focus:ring-blue-400 "
-              } ${className}`}
+             ${className}`}
           />
           {isPassword ? (
             <button
@@ -101,7 +93,6 @@ export default function InputField({
           )}
         </div>
       )}
-      {/* {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>} */}
     </div>
   );
 }

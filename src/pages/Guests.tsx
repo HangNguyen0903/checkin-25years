@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useRef, useState } from "react";
-import { events, mockGuests } from "../mockData/guest";
+import { useEffect, useRef, useState } from "react";
+import { mockGuests } from "../mockData/guest";
 import ButtonField from "../components/ui/Button/ButtonField";
 import { Download, Plus, RefreshCcw, Send } from "lucide-react";
 import type { Guest } from "../types/guest";
@@ -10,6 +10,9 @@ import DataTableGrid from "@/components/ui/Table/DataTableGrid";
 import { guestColumns } from "@/features/columns";
 import ModalAddGuest from "@/components/modal/ModalAddGuest";
 import ModalCheckin from "@/components/modal/ModalCheckin";
+import { getEvents } from "@/services/eventService";
+import type { Event } from "@/types/events";
+import { CHECKIN, STATUS } from "@/constants/guest";
 
 const Guests = () => {
   const [data] = useState<Guest[]>(mockGuests);
@@ -22,6 +25,7 @@ const Guests = () => {
   const [open, setOpen] = useState(false);
   const [isCheckin, setIsCheckin] = useState(false);
   const [selectedGuest, setSelectedGuest] = useState<Guest | undefined>();
+  const [listEvents, setListEvents] = useState<Event[]>([]);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -50,6 +54,18 @@ const Guests = () => {
     setSelectedGuest(guest);
   };
 
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const listEvents = await getEvents();
+        setListEvents(listEvents);
+      } catch (err) {
+        console.error("Error fetching events:", err);
+      }
+    };
+    fetchEvents();
+  }, []);
+
   return (
     <div className="bg-white shadow border border-gray-100 rounded-lg">
       <div className="border-b-1 border-gray-300">
@@ -61,9 +77,9 @@ const Guests = () => {
                 width="lg:w-[300px]"
               />
               <Select
-                options={events.map((ev) => ({
-                  label: ev.name,
-                  value: ev.name,
+                options={listEvents.map((ev) => ({
+                  label: ev?.name,
+                  value: ev?.id,
                 }))}
                 placeholder="Chọn sự kiện"
                 onChange={(val) => {
@@ -71,9 +87,9 @@ const Guests = () => {
                 }}
               />
               <Select
-                options={events.map((ev) => ({
-                  label: ev.name,
-                  value: ev.name,
+                options={CHECKIN.map((ev) => ({
+                  label: ev?.title,
+                  value: ev?.value,
                 }))}
                 placeholder="Trạng thái checkin"
                 onChange={(val) => {
@@ -81,9 +97,9 @@ const Guests = () => {
                 }}
               />
               <Select
-                options={events.map((ev) => ({
-                  label: ev.name,
-                  value: ev.name,
+                options={STATUS.map((ev) => ({
+                  label: ev?.title,
+                  value: ev?.value,
                 }))}
                 placeholder="Trạng thái"
                 onChange={(val) => {

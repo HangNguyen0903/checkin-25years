@@ -13,7 +13,6 @@ const RenderRoutes = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/message" element={<Message />} />
       <Route path="/wishes" element={<WishesScreen />} />
-
       {routes.map(({ path, element: Component }) => (
         <Route
           key={path}

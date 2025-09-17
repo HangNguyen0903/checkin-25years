@@ -22,7 +22,7 @@ export default function ButtonField({
   className,
 }: ButtonProps) {
   const baseStyle =
-    "flex items-center justify-center gap-2 px-3 py-1 rounded font-medium transition-colors duration-200";
+    "flex items-center justify-center gap-2 px-3 py-2 rounded font-medium transition-colors duration-200 cursor-pointer";
 
   const colors: Record<typeof color, string> = {
     primary: "bg-blue-900 hover:bg-blue-800 text-white",

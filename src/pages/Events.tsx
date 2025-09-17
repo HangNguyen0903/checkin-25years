@@ -19,38 +19,13 @@ const Events = () => {
     order: "asc" as "asc" | "desc",
     name: "",
   });
-
   const [modal, setModal] = useState<{
     type: string | null;
     data?: Event;
   }>({ type: null, data: undefined });
-
-  // const [open, setOpen] = useState(false);
-  // const [selectedEvent, setSelectedEvent] = useState<Event | undefined>();
   const [events, setEvents] = useState<Event[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(false);
-  // const [page, setPage] = useState(0);
-  // const [rowsPerPage, setRowsPerPage] = useState(10);
-  // const [orderBy, setOrderBy] = useState<string>();
-  // const [order, setOrder] = useState<"asc" | "desc">("asc");
-  // const [isDelete, setIsDelete] = useState(false);
-
-  // const handleChangeEvent = (event?: Event) => {
-  //   setOpen(true);
-  //   setSelectedEvent(event);
-  // };
-
-  // const handleDelete = async (event?: Event) => {
-  //   if (!event?.id) return;
-  //   try {
-  //     await deleteEvent(event.id);
-  //     toast.success("Xóa sự kiện thành công!");
-  //     fetchEvents();
-  //   } catch {
-  //     toast.error("Xóa sự kiện thất bại!");
-  //   }
-  // };
 
   const handleCloseModal = () => setModal({ type: null, data: undefined });
   const handleOpenModal = (type: string, data?: Event) =>
@@ -116,26 +91,16 @@ const Events = () => {
           order={filter?.order}
           loading={loading}
           getRowId={(row) => row?.id ?? row.id}
-          // onPageChange={filter?.setPage}
           onPageChange={(page) => setFilter((prev) => ({ ...prev, page }))}
-          // onRowsPerPageChange={filter?.setRowsPerPage}
           onRowsPerPageChange={(rowsPerPage) =>
             setFilter((prev) => ({ ...prev, rowsPerPage }))
           }
-          // onSortChange={(col, dir) => {
-          //   setFilter(col);
-          //   setOrder(dir);
-          // }}
           onSortChange={(col, dir) =>
             setFilter((prev) => ({ ...prev, orderBy: col, order: dir }))
           }
           helpers={{
-            // onOpenModalEdit: (row: Event) => handleChangeEvent(row),
             onOpenModalEdit: (row: Event) => handleOpenModal("edit", row),
             onDelete: (row: Event) => handleOpenModal("delete", row),
-
-            // onDelete: (row: Event) => handleDelete(row),
-            //  onDelete: (row: Event) => setIsDelete(true) || setSelectedEvent(row),
           }}
         />
       </div>
