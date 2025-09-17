@@ -7,7 +7,7 @@ const Firework = ({ x, y }: { x: number; y: number }) => {
       style={{ top: y, left: x }}
       initial={{ scale: 0, opacity: 1 }}
       animate={{ scale: [1, 2, 0.5], opacity: [1, 0.8, 0] }}
-      transition={{ duration: 1.5, ease: "easeOut" }}
+      transition={{ duration: 3, ease: "easeOut" }}
     >
       <div className="relative w-8 h-8">
         {[...Array(8)].map((_, i) => (
@@ -22,9 +22,9 @@ const Firework = ({ x, y }: { x: number; y: number }) => {
             }}
             initial={{ x: 0, y: 0, opacity: 1 }}
             animate={{
-              x: Math.cos((i * Math.PI) / 4) * 30,
-              y: Math.sin((i * Math.PI) / 4) * 30,
-              opacity: 0,
+              x: Math.cos((i * Math.PI) / 4) * 50,
+              y: Math.sin((i * Math.PI) / 4) * 50,
+              opacity: 0.8,
             }}
             transition={{ duration: 1.5 }}
           />

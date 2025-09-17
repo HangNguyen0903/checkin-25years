@@ -7,7 +7,7 @@ import DataTableGrid from "@/components/ui/Table/DataTableGrid";
 import { eventColumns } from "@/features/columns";
 import { getEvents } from "@/services/eventService";
 import type { Event } from "@/types/events";
-import { Plus, Search } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -59,7 +59,14 @@ const Events = () => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setFilter((prev) => ({ ...prev, name: e.target.value }))
               }
-              leftIcon={<Search size={14} />}
+              rightIcon={
+                filter.name && (
+                  <X
+                    size={14}
+                    onClick={() => setFilter((prev) => ({ ...prev, name: "" }))}
+                  />
+                )
+              }
             />
             <ButtonField
               type="button"

@@ -55,7 +55,7 @@ const ModalAddGuest = ({ open, setOpen, selectedData }: ModalProps) => {
               registration={register("fullName", {
                 required: "Họ & tên là bắt buộc",
               })}
-              error={errors.fullName}
+              // error={errors.fullName}
               placeholder="Nhập họ & tên"
               required
             />
@@ -155,7 +155,7 @@ const ModalAddGuest = ({ open, setOpen, selectedData }: ModalProps) => {
               registration={register("tableCode", {
                 required: "Mã bàn tiệc là bắt buộc",
               })}
-              error={errors.tableCode}
+              // error={errors.tableCode}
               placeholder="Nhập mã bàn tiệc"
               required
             />

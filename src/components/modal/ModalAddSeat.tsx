@@ -35,7 +35,6 @@ const ModalAddSeat = ({
 
   const onSubmit = async (data: Seat) => {
     try {
-      console.log("data", data);
       //  if (data?.code) {
       //    await updateEvent(data?.id, data);
       //    toast.success("Cập nhật sự kiện thành công!");
@@ -88,7 +87,7 @@ const ModalAddSeat = ({
           registration={register("code", {
             required: "Mã vị trí là bắt buộc",
           })}
-          error={errors.code}
+          // error={errors.code}
           required
         />
         <InputField
@@ -96,7 +95,7 @@ const ModalAddSeat = ({
           registration={register("description", {
             required: "Tên vị trí là bắt buộc",
           })}
-          error={errors.description}
+          // error={errors.description}
           required
         />
         <Select

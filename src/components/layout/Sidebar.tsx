@@ -12,7 +12,11 @@ const Sidebar = () => {
       ${collapsed ? "md:w-19 w-0" : "w-72"}`}
     >
       <div className="flex items-center justify-between p-4 relative">
-        {!collapsed ? <h3 className="text-xl">Admin</h3> : <h5>Admin</h5>}
+        {!collapsed ? (
+          <img src="/public/bg3.png" alt="logo-iig" className="w-10" />
+        ) : (
+          <img src="/public/bg3.png" alt="logo-iig" className="w-10" />
+        )}
         <button
           onClick={() => setCollapsed(!collapsed)}
           className="absolute right-0 items-center"

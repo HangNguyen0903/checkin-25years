@@ -2,10 +2,11 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Wish } from "@/types/wishes";
 import { SignalRContext } from "@/context/signalr-context";
+import Firework from "@/components/Firework";
+import { TvMinimal, X } from "lucide-react";
 
 export default function WishesScreen() {
   const [wishes, setWishes] = useState<Wish[]>([]);
-
   SignalRContext.useSignalREffect(
     "ReceiveWish",
     (wish: Wish) => {
@@ -31,18 +32,31 @@ export default function WishesScreen() {
     []
   );
 
+  const goFullScreen = () => {
+    const elem = document.documentElement;
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    }
+  };
+
+  const exitFullScreen = () => {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    }
+  };
+
   return (
     <div
-      className="relative flex items-center justify-center min-h-screen bg-gradient-to-br
-     from-[#5FA242]/30 via-[#F08022]/30 to-[#00539F]/100 bg-amber-50"
-      // style={{
-      //   backgroundImage: "url('/public/bg3.png')",
-      // }}
+      className="relative flex items-center justify-center min-h-screen bg-white"
+      style={{
+        backgroundImage: "url('/public/bg3.png')",
+        backgroundSize: "300px 200px",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
     >
-      <div
-        className="absolute inset-0 bg-gradient-to-br
-     from-[#5FA242]/10 via-[#F08022]/30 to-[#00539F]/30 bg-black/30"
-      />
+      <div className="absolute inset-0 bg-black/30" />
+
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
         <AnimatePresence>
           {wishes?.map((wish) => (
@@ -58,16 +72,14 @@ export default function WishesScreen() {
               }}
               className="absolute w-[320px] bg-white shadow-lg rounded-2xl border border-gray-200 overflow-hidden bg-cover"
             >
-              {/* <div className="absolute inset-0 bg-black/20" /> */}
               <div className="flex items-center gap-3 py-2 px-3 border-gray-100 bg-gradient-to-r from-[#5FA242]/10 to-[#00539F]/10">
-                {/* <div className="flex items-center gap-3 my-auto justify-center"> */}
                 <img
                   src={"/public/ava1.svg"}
                   alt={wish?.id}
                   className="w-10 h-10 rounded-full border border-gray-100"
                 />
-                <div className="flex gap-2 text-sm text-center ">
-                  <span className="text-gray-500">Gửi từ</span>
+                <div className="flex gap-2 text-sm text-center">
+                  <span className="text-gray-500">From: </span>
                   <span className="font-semibold text-[#00539F]">
                     {wish?.user}
                   </span>
@@ -78,16 +90,19 @@ export default function WishesScreen() {
                   {wish.message}
                 </p>
               </div>
-              {/* <div className="p-3 text-xs text-[#5FA242] border-t border-gray-100 font-semibold text-right"> */}
-              <div
-                // className="p-3 text-xs text-[#5FA242] font-semibold text-right"
-                className="flex m-auto justify-end p-3 border-t border-gray-100"
-              >
+              <div className="flex m-auto justify-end p-3 border-t border-gray-100">
                 <img src="/public/bg3.png" className="w-5" />
+              </div>
+              <div className="absolute top-0 z-10">
+                <Firework x={100} y={50} />
               </div>
             </motion.div>
           ))}
         </AnimatePresence>
+      </div>
+      <div className="absolute bottom-4 right-4 z-50 flex gap-2">
+        <TvMinimal onClick={goFullScreen} />
+        <X onClick={exitFullScreen} />
       </div>
     </div>
   );
