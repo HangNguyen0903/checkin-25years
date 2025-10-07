@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Wish } from "@/types/wishes";
 import { SignalRContext } from "@/context/signalr-context";
 import Firework from "@/components/Firework";
 import { TvMinimal, X } from "lucide-react";
+import { mockWishes } from "@/mockData/wishes";
 
 export default function WishesScreen() {
   const [wishes, setWishes] = useState<Wish[]>([]);
@@ -44,6 +45,33 @@ export default function WishesScreen() {
       document.exitFullscreen();
     }
   };
+  useEffect(() => {
+    const users = ["Hằng", "Minh", "Lan", "Tuấn", "Linh", "Nam"];
+
+    const interval = setInterval(() => {
+      const id = Date.now().toString();
+      const newWish = {
+        id,
+        user: users[Math.floor(Math.random() * users.length)],
+        message: mockWishes[Math.floor(Math.random() * mockWishes.length)],
+        x: Math.random() * (window.innerWidth - 320),
+        y: Math.random() * (window.innerHeight - 200),
+      };
+
+      setWishes((prev) => {
+        const updated = [...prev, newWish];
+        if (updated.length > 20) updated.shift();
+        return updated;
+      });
+
+      // Xóa sau 5 giây
+      setTimeout(() => {
+        setWishes((prev) => prev.filter((w) => w.id !== id));
+      }, 5000);
+    }, 2000); // mỗi 2 giây tạo 1 wish mới
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div
@@ -66,18 +94,25 @@ export default function WishesScreen() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
               transition={{ duration: 0.8 }}
+              // style={{
+              //   top: wish.y,
+              //   left: wish.x,
+              // }}
               style={{
                 top: wish.y,
                 left: wish.x,
+                backgroundImage: "url('/bg_1.jpg')", // ✅ ảnh nền cho card
+                backgroundSize: "cover",
+                backgroundPosition: "center",
               }}
               className="absolute w-[320px] bg-white shadow-lg rounded-2xl border border-gray-200 overflow-hidden bg-cover"
             >
-              <div className="flex items-center gap-3 py-2 px-3 border-gray-100 bg-gradient-to-r from-[#5FA242]/10 to-[#00539F]/10">
-                <img
+              <div className="flex justify-center items-center gap-3 py-3 px-3 border-gray-100 ">
+                {/* <img
                   src={"/public/ava1.svg"}
                   alt={wish?.id}
                   className="w-10 h-10 rounded-full border border-gray-100"
-                />
+                /> */}
                 <div className="flex gap-2 text-sm text-center">
                   <span className="text-gray-500">From: </span>
                   <span className="font-semibold text-[#00539F]">
@@ -85,12 +120,12 @@ export default function WishesScreen() {
                   </span>
                 </div>
               </div>
-              <div className="py-2 px-4 text-center">
+              <div className=" px-4 text-center">
                 <p className="text-gray-800 leading-relaxed whitespace-pre-line text-sm font-medium">
                   {wish.message}
                 </p>
               </div>
-              <div className="flex m-auto justify-end p-3 border-t border-gray-100">
+              <div className="flex m-auto justify-end p-3 border-gray-100">
                 <img src="/public/bg3.png" className="w-5" />
               </div>
               <div className="absolute top-0 z-10">
