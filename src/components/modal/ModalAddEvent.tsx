@@ -6,8 +6,15 @@ import type { Event } from "@/types/events";
 import ButtonField from "../ui/Button/ButtonField";
 import { useEffect } from "react";
 import { defaultValuesEvent } from "@/constants/defaultValue";
+import { createEvent, updateEvent } from "@/services/eventService";
+import { toast } from "react-toastify";
 
-const ModalAddEvent = ({ open, setOpen, selectedData }: ModalProps) => {
+const ModalAddEvent = ({
+  open,
+  setOpen,
+  selectedData,
+  onSuccess,
+}: ModalProps) => {
   const {
     register,
     handleSubmit,
@@ -17,15 +24,22 @@ const ModalAddEvent = ({ open, setOpen, selectedData }: ModalProps) => {
     defaultValues: defaultValuesEvent,
   });
 
-  const onSubmit = async () =>
-    // data
-    {
-      try {
-        alert("Thêm sự kiện thành công");
-      } catch {
-        alert("Thêm thất bại");
+  const onSubmit = async (data: Event) => {
+    try {
+      if (data?.id) {
+        await updateEvent(data?.id, data);
+        toast.success("Cập nhật sự kiện thành công!");
+      } else {
+        await createEvent(data);
+        toast.success("Thêm sự kiện thành công!");
       }
-    };
+      onSuccess?.();
+      setOpen(false);
+      reset(defaultValuesEvent);
+    } catch {
+      toast.error("Lưu sự kiện thất bại!");
+    }
+  };
 
   useEffect(() => {
     reset(selectedData ?? defaultValuesEvent);
@@ -44,8 +58,9 @@ const ModalAddEvent = ({ open, setOpen, selectedData }: ModalProps) => {
           registration={register("name", {
             required: "Tên sự kiện là bắt buộc",
           })}
-          error={errors.name}
+          // error={errors.name}
           placeholder="Nhập tên sự kiện"
+          required
         />
         <InputField
           label="Mô tả"
@@ -53,17 +68,25 @@ const ModalAddEvent = ({ open, setOpen, selectedData }: ModalProps) => {
           registration={register("description", {
             required: "Mô tả sự kiện là bắt buộc",
           })}
-          error={errors.description}
+          // error={errors.description}
           placeholder="Nhập mô tả"
+          required
         />
-        <div className="flex justify-end gap-2">
-          <ButtonField
-            type="button"
-            color="secondary"
-            text="Hủy"
-            onClick={() => setOpen(false)}
-          />
-          <ButtonField type="submit" color="primary" text="Lưu" />
+        <div className="flex justify-between gap-2 items-start">
+          <div className="text-sm text-red-600 font-medium">
+            {errors?.name
+              ? errors?.name?.message
+              : errors?.description?.message}
+          </div>
+          <div className="flex gap-2">
+            <ButtonField
+              type="button"
+              color="secondary"
+              text="Hủy"
+              onClick={() => setOpen(false)}
+            />
+            <ButtonField type="submit" color="primary" text="Lưu" />
+          </div>
         </div>
       </form>
     </BaseModal>

@@ -3,7 +3,7 @@ import type { FieldError, UseFormRegisterReturn } from "react-hook-form";
 
 interface Option {
   label: string;
-  value: string | number;
+  value?: string | number;
 }
 
 interface SelectProps {
@@ -16,6 +16,7 @@ interface SelectProps {
   className?: string;
   error?: FieldError;
   registration?: UseFormRegisterReturn;
+  required?: boolean;
 }
 
 const Select: React.FC<SelectProps> = ({
@@ -27,13 +28,14 @@ const Select: React.FC<SelectProps> = ({
   className = "",
   registration,
   error,
+  required,
 }) => {
   return (
     <div className="">
       {title && (
         <label className="block font-medium mb-1">
           {title}
-          {registration && <span className="text-red-500 ml-1">*</span>}
+          {required && <span className="text-red-500 ml-1">*</span>}
         </label>
       )}
       <select
@@ -46,7 +48,7 @@ const Select: React.FC<SelectProps> = ({
         name={registration?.name}
         ref={registration?.ref}
         disabled={disabled}
-        className={`border border-gray-300 rounded-md px- py-1 focus:ring-2 focus:ring-gray-400 w-full ${className} ${
+        className={`border border-gray-300 rounded-md px-1 py-2 focus:ring-2 focus:ring-gray-400 w-full ${className} ${
           error ? "border-red-500" : ""
         }`}
       >

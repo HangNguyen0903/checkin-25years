@@ -1,4 +1,3 @@
-import type { Event } from "@/types/events";
 import type { Guest } from "@/types/guest";
 import type { Seat } from "@/types/seats";
 
@@ -77,36 +76,18 @@ export const mockGuests: Guest[] = [
 
 export const seats: Seat[] = [
   {
-    uuid: "H1DA",
-    name: "Hàng 1 Dãy A",
-    event: { id: "SK01", name: "25 năm thành lập IIG" },
+    code: "H1DA",
+    description: "Hàng 1 Dãy A",
+    anniversaryEventId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   },
   {
-    uuid: "H2DA",
-    name: "Hàng 1 Dãy A",
-    event: { id: "SK02", name: "30 năm thành lập IIG" },
+    code: "H2DA",
+    description: "Hàng 1 Dãy A",
+    anniversaryEventId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   },
   {
-    uuid: "H1DB",
-    name: "Hàng 1 Dãy A",
-    event: { id: "SK03", name: "35 năm thành lập IIG" },
-  },
-];
-
-export const events: Event[] = [
-  {
-    id: "SK01",
-    name: "25 năm thành lập IIG",
-    description: "Lễ kỷ niệm 25 năm thành lập IIG diễn ra tại HN",
-  },
-  {
-    id: "SK02",
-    name: "30 năm thành lập IIG",
-    description: "Lễ kỷ niệm 25 năm thành lập IIG diễn ra tại HN",
-  },
-  {
-    id: "SK03",
-    name: "35 năm thành lập IIG",
-    description: "Lễ kỷ niệm 25 năm thành lập IIG diễn ra tại HN",
+    code: "H1DB",
+    description: "Hàng 1 Dãy A",
+    anniversaryEventId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   },
 ];

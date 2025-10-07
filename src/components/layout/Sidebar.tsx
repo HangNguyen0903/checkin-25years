@@ -2,16 +2,21 @@ import { Link } from "react-router-dom";
 import { routes } from "../../routes/routes";
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Tooltip } from "@mui/material";
 
 const Sidebar = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   return (
     <aside
       className={`h-screen bg-white transition-all duration-300
-      ${collapsed ? "w-20" : "w-72"}`}
+      ${collapsed ? "md:w-19 w-0" : "w-72"}`}
     >
       <div className="flex items-center justify-between p-4 relative">
-        {!collapsed ? <h3 className="text-xl">Admin</h3> : <h3>A</h3>}
+        {!collapsed ? (
+          <img src="/public/bg3.png" alt="logo-iig" className="w-10" />
+        ) : (
+          <img src="/public/bg3.png" alt="logo-iig" className="w-10" />
+        )}
         <button
           onClick={() => setCollapsed(!collapsed)}
           className="absolute right-0 items-center"
@@ -37,10 +42,14 @@ const Sidebar = () => {
                 : "hover:bg-gray-100"
             }`}
           >
-            <div className="flex gap-2 text-sm items-center">
-              <span className="w-5 h-5 flex items-center justify-center"> {<r.icon size={18} />}</span>
-              <span> {!collapsed && r.label}</span>
-            </div>
+            <Tooltip title={collapsed ? r.tooltip : ""} placement="right">
+              <div className="flex gap-2 text-sm items-center">
+                <span className="w-5 h-5 flex items-center justify-center">
+                  {<r.icon size={18} />}
+                </span>
+                <span> {!collapsed && r.label}</span>
+              </div>
+            </Tooltip>
           </Link>
         ))}
       </nav>

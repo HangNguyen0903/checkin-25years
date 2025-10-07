@@ -31,6 +31,6 @@ export const STATUS = [
   { value: "DC", title: "Điều chỉnh thông tin" },
 ];
 export const CHECKIN = [
-  { value: true, title: "Checkin" },
-  { value: false, title: "Chưa Checkin" },
+  { value: 1, title: "Checkin" },
+  { value: 2, title: "Chưa Checkin" },
 ];

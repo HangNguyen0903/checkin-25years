@@ -1,9 +1,6 @@
 export interface Seat {
-  uuid: string;
-  name: string;
-  image?: string;
-  event: {
-    id: string;
-    name: string;
-  };
+  code: string;
+  description: string;
+  imageFileId?: string;
+  anniversaryEventId: string;
 }

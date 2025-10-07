@@ -1,9 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
 import InputField from "../../ui/Input/InputField";
 import { useNavigate } from "react-router-dom";
 import ButtonField from "../../ui/Button/ButtonField";
 import { Lock, User } from "lucide-react";
 import type { LoginFormInputs } from "../../../types/auth";
+import { defaultLogin } from "@/constants/defaultValue";
+import { loginUser } from "@/services/authService";
+// import { toast } from "react-toastify";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -11,21 +15,25 @@ const LoginForm = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormInputs>();
+  } = useForm<LoginFormInputs>({
+    defaultValues: defaultLogin,
+  });
 
-  const onSubmit = async () =>
-    // data: LoginFormInputs
-    {
-      try {
-        //   const res = await axios.post("/api/auth/login", data);
-        //   localStorage.setItem("token", res.data.token);
-        navigate("/guests");
-      } catch {
-        alert("Đăng nhập thất bại!");
-      } finally {
-        navigate("/guests");
+  const onSubmit = async (data: LoginFormInputs) => {
+    try {
+      const res = await loginUser(data);
+
+      if (res?.token) {
+        localStorage.setItem("token", res.token);
+        alert("Đăng nhập thành công!");
+        navigate("/events");
+      } else {
+        alert(res?.detail || "Đăng nhập thất bại!");
       }
-    };
+    } catch (err: any) {
+      alert(err?.detail || "Có lỗi xảy ra khi đăng nhập");
+    }
+  };
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -36,22 +44,27 @@ const LoginForm = () => {
         label="Tên đăng nhập"
         type="text"
         placeholder="Nhập tên đăng nhập"
-        registration={register("username", {
-          required: "Tên đăng nhập là bắt buộc",
+        registration={register("userName", {
+          required: "Tên đăng nhập bắt buộc",
         })}
-        error={errors.username}
+        // error={errors.userName}
         leftIcon={<User size={16} />}
+        required
       />
       <InputField
         label="Mật khẩu"
         type="password"
         placeholder="Nhập mật khẩu"
         registration={register("password", {
-          required: "Mật khẩu là bắt buộc",
+          required: "Mật khẩu bắt buộc",
         })}
-        error={errors.password}
+        // error={errors.password}
         leftIcon={<Lock size={16} />}
+        required
       />
+      <div className="text-red-500 text-sm font-semibold">
+        {errors?.userName?.message ?? errors?.password?.message}
+      </div>
       <ButtonField type="submit" color="primary" text="Đăng nhập" fullWidth />
     </form>
   );

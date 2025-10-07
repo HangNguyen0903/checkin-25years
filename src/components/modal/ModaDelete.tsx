@@ -3,8 +3,11 @@ import BaseModal from "../ui/Modal/ModalBase";
 import { useForm } from "react-hook-form";
 import type { Seat } from "@/types/seats";
 import ButtonField from "../ui/Button/ButtonField";
+import { toast } from "react-toastify";
+import { deleteEvent } from "@/services/eventService";
 
-const ModalCheckin = ({ open, setOpen, selectedData }: ModalProps) => {
+const ModaDelete = ({ open, setOpen, selectedData, onSuccess }: ModalProps) => {
+  console.log("aaaaa", selectedData);
   const {
     // register,
     handleSubmit,
@@ -14,23 +17,17 @@ const ModalCheckin = ({ open, setOpen, selectedData }: ModalProps) => {
     defaultValues: {},
   });
 
-  const onSubmit = async () =>
-    // data
-    {
-      try {
-        alert("Thêm sự kiện thành công");
-      } catch {
-        alert("Thêm thất bại");
-      }
-    };
-
-  //   useEffect(() => {
-  //     if (selectedData) {
-  //       reset(selectedData);
-  //     } else {
-  //       reset({ name: "", description: "" });
-  //     }
-  //   }, [selectedData, open, reset]);
+  const onSubmit = async () => {
+    if (!selectedData?.id) return;
+    try {
+      await deleteEvent(selectedData.id);
+      toast.success("Xóa sự kiện thành công!");
+      onSuccess?.();
+      setOpen(false);
+    } catch {
+      toast.error("Không thể xóa sự kiện!");
+    }
+  };
 
   return (
     <BaseModal
@@ -40,7 +37,7 @@ const ModalCheckin = ({ open, setOpen, selectedData }: ModalProps) => {
       width={400}
     >
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        {`Xác nhận checkin khách mời  ${selectedData?.fullName}`}
+        {`Bạn chắc chắn muốn xóa  " ${selectedData?.name} "`}
         <div className="flex justify-end gap-2 mb-3 mt-6">
           <ButtonField
             type="button"
@@ -54,4 +51,4 @@ const ModalCheckin = ({ open, setOpen, selectedData }: ModalProps) => {
     </BaseModal>
   );
 };
-export default ModalCheckin;
+export default ModaDelete;

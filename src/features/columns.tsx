@@ -23,7 +23,7 @@ export const eventColumns: Column<Event>[] = [
         <Tooltip title="Xóa" placement="top">
           <Trash2
             size={16}
-            onClick={() => onDelete(row.id)}
+            onClick={() => onDelete(row)}
             className="text-red-500 hover:text-red-00 cursor-pointer"
           />
         </Tooltip>
@@ -38,7 +38,7 @@ export const seatColumns: Column<Seat>[] = [
   {
     key: "event",
     label: "Sự kiện",
-    renderCell: (row) => <span>{row.event.name}</span>,
+    renderCell: (row) => <span>{row.anniversaryEventId}</span>,
   },
   { key: "image", label: "Ảnh chỗ ngồi" },
   {
@@ -56,7 +56,7 @@ export const seatColumns: Column<Seat>[] = [
         <Tooltip title="Xóa" placement="top">
           <Trash2
             size={16}
-            onClick={() => onDelete(row.uuid)}
+            onClick={() => onDelete(row.code)}
             className="text-red-500 hover:text-red-700 cursor-pointer"
           />
         </Tooltip>

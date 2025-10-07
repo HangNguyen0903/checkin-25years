@@ -4,4 +4,5 @@ export interface ModalProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   selectedData: any;
   setSelectedEvent?: React.Dispatch<React.SetStateAction<Event | undefined>>;
+  onSuccess?: () => void
 }
